@@ -1,0 +1,45 @@
+name: Snapshot catalogue sources
+
+# Manual helper: downloads stephenking.com / Wikipedia / Open Library pages
+# into the `data-snapshot` branch so catalogue updates can be verified
+# from raw sources. Does not touch main or the deployed app.
+
+on:
+  workflow_dispatch:
+    inputs:
+      sk_site:
+        description: 'Fetch stephenking.com/works (index + detail pages)'
+        type: boolean
+        default: true
+      wiki:
+        description: 'Wikipedia page titles, separated by |'
+        default: 'List of short fiction by Stephen King|Stephen King bibliography'
+      ol:
+        description: 'Open Library title searches, separated by |'
+        default: ''
+
+permissions:
+  contents: write
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/snapshot-sources.mjs
+        env:
+          SK_SITE: ${{ inputs.sk_site && '1' || '' }}
+          WIKI: ${{ inputs.wiki }}
+          OL: ${{ inputs.ol }}
+      - name: Push snapshot branch
+        run: |
+          cd snapshot
+          git init -q -b data-snapshot
+          git config user.name "github-actions[bot]"
+          git config user.email "41898333+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -qm "Snapshot $(date -u +%FT%TZ)"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}" data-snapshot
