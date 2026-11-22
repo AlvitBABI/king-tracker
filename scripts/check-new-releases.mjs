@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 // Monthly check: compares stephenking.com/works against our catalogue.
 //
-// Every novel / novella / collection / non-fiction slug on the official site
-// must appear in src/data/sk-works.json, either mapped to a book id in
-// books.json or marked { "ignore": "reason" } (limited editions, novellas
+// Every novel / novella / collection / non-fiction / short story slug on the
+// official site must appear in src/data/sk-works.json, either mapped to an id
+// in books.json / stories.json or marked { "ignore": "reason" } (limited editions, novellas
 // already inside a collection, reprints...). Anything else is a new work.
 //
 // For each new work it opens a GitHub issue (once — closed issues are not
@@ -16,13 +16,14 @@
 import { readFile } from 'node:fs/promises'
 
 const SITE = 'https://stephenking.com'
-const CATEGORIES = ['novel', 'novella', 'collection', 'nonfiction']
+const CATEGORIES = ['novel', 'novella', 'collection', 'nonfiction', 'short']
 const UA = { 'User-Agent': 'king-tracker release check (github.com/AlvitBABI/king-tracker)' }
 const LABEL = 'new-release'
 
 const known = JSON.parse(await readFile(new URL('../src/data/sk-works.json', import.meta.url), 'utf8'))
 const books = JSON.parse(await readFile(new URL('../src/data/books.json', import.meta.url), 'utf8'))
-const bookIds = new Set(books.map((b) => b.id))
+const stories = JSON.parse(await readFile(new URL('../src/data/stories.json', import.meta.url), 'utf8'))
+const bookIds = new Set([...books, ...stories].map((b) => b.id))
 
 async function get(url) {
   for (let attempt = 1; ; attempt++) {
@@ -133,7 +134,9 @@ for (const w of found) {
     '',
     '**To add it**',
     '1. Verify the first US publication date on Wikipedia and Open Library (the site sometimes lists a later edition).',
-    '2. Add the book to `src/data/books.json` (cover via Open Library `olid` or `isbn`).',
+    w.key.startsWith('short/')
+      ? '2. Add the story to `src/data/stories.json` (id `story-<slug>`, first publication date and venue from Wikipedia\'s "Stephen King short fiction bibliography", collections it appears in).'
+      : '2. Add the book to `src/data/books.json` (cover via Open Library `olid` or `isbn`).',
     `3. Map \`"${w.key}"\` to its id in \`src/data/sk-works.json\`.`,
     '',
     `If it's a limited edition, reprint, or a novella already inside a collection, add \`"${w.key}": { "ignore": "reason" }\` to \`sk-works.json\` instead and close this issue.`,

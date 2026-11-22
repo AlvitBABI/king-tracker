@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { books, SERIES, statusOf, TYPE_LABEL } from '../lib/books.js'
+import { bookById, books, SERIES, statusOf, TYPE_LABEL } from '../lib/books.js'
 import { isOwned } from '../lib/entry.js'
+import { stories, storyStatus } from '../lib/stories.js'
 import { updateEntry, useStore } from '../lib/store.js'
 import { Cover } from './BookCard.jsx'
 import { DiceIcon } from './Icons.jsx'
@@ -11,12 +12,14 @@ const MODES = [
   { id: 'short', label: 'Short', hint: 'under 300 pages' },
   { id: 'long', label: 'Long', hint: '500+ pages' },
   { id: 'series', label: 'Series', hint: 'next in a series' },
+  { id: 'story', label: 'Short story', hint: 'a quick read' },
 ]
 
 // For "series": only the next unread book of each series (read them in order),
 // preferring series you've already started.
 function candidates(mode, log) {
   const unread = books.filter((b) => statusOf(log, b.id) === 'unread')
+  if (mode === 'story') return stories.filter((s) => storyStatus(log, s).status === 'unread')
   if (mode === 'shelf') return unread.filter((b) => isOwned(log[b.id]))
   if (mode === 'short') return unread.filter((b) => b.pages && b.pages < 300)
   if (mode === 'long') return unread.filter((b) => b.pages >= 500)
@@ -73,7 +76,7 @@ export default function PickView({ onOpen }) {
   }
 
   const shown = spinning || pick
-  const pickStatus = pick ? statusOf(log, pick.id) : null
+  const pickStatus = pick ? (pick.collections ? storyStatus(log, pick).status : statusOf(log, pick.id)) : null
 
   return (
     <div className="pick">
@@ -93,7 +96,7 @@ export default function PickView({ onOpen }) {
         ))}
       </div>
       <p className="muted center small">
-        {pool.length} unread {pool.length === 1 ? 'candidate' : 'candidates'}
+        {pool.length} unread {mode === 'story' ? (pool.length === 1 ? 'story' : 'stories') : pool.length === 1 ? 'candidate' : 'candidates'}
         {MODES.find((m) => m.id === mode).hint ? ` · ${MODES.find((m) => m.id === mode).hint}` : ''}
       </p>
 
@@ -118,8 +121,11 @@ export default function PickView({ onOpen }) {
         <div className="pick-info">
           <h3>{pick.title}</h3>
           <p className="muted">
-            {pick.published.slice(0, 4)} · {TYPE_LABEL[pick.type]} · {pick.pages ?? '?'} pages
-            {pick.series.length ? ` · ${pick.series[0]}` : ''}
+            {pick.collections
+              ? `${pick.published.slice(0, 4)} · ${pick.length === 'novella' ? 'Novella-length story' : 'Short story'}${
+                  pick.collections.length ? ` · in ${bookById[pick.collections[0]].title}` : ''
+                }`
+              : `${pick.published.slice(0, 4)} · ${TYPE_LABEL[pick.type]} · ${pick.pages ?? '?'} pages${pick.series.length ? ` · ${pick.series[0]}` : ''}`}
           </p>
         </div>
       )}

@@ -20,9 +20,16 @@ Fields: `id` (stable slug), `title`, `published` (ISO date of first US publicati
 - Include ALL books: novels, collections, novellas, non-fiction, Bachman.
 - Verify every publication date against Open Library and Wikipedia before committing. No dates from memory.
 - The list follows https://stephenking.com/works/ (novel, novella, collection, nonfiction categories) with original works only: no limited/illustrated/revised editions, omnibuses, audiobooks, or novellas that only appeared inside a collection. Dates are the first US publication (the official site sometimes lists a later edition, so Wikipedia + Open Library win). Unknown day/month → reduced ISO (`1991-10`, `2000`).
-- `src/data/sk-works.json` maps every official-site slug to a book id or `{ "ignore": "reason" }`.
+- `src/data/sk-works.json` maps every official-site slug (novel, novella, collection, nonfiction, short) to a book/story id or `{ "ignore": "reason" }`.
 - `.github/workflows/check-new-releases.yml` runs `scripts/check-new-releases.mjs` monthly and opens a `new-release` GitHub issue for any site slug missing from `sk-works.json`. Adding a book = verify dates, add to books.json, map the slug.
 - Covers: `olid` (Open Library's representative cover edition) is preferred over `isbn` when both exist.
+
+### Short stories: `src/data/stories.json`
+The site's "Short Stories" category (`short/…`). Fields: `id` (`story-<site slug>`), `title`, `published` (first publication, reduced ISO), `length` (story | novella), `first_published_in` (magazine/anthology), `collections` (book ids from books.json), optional `also_in` (editions not in the catalogue, e.g. Night Shift 2020 deluxe).
+- Dates come from Wikipedia's "Stephen King short fiction bibliography" (first appearance; the official site usually shows the collection date). Open Library doesn't catalogue individual stories, so it isn't used for them. Creepshow segments the site lists as "Unreleased" are ignored.
+- Logged in the same sheet rows as books (book_id = story id). A story counts as read if a book containing it is marked read, and as owned if such a book is owned (`src/lib/stories.js`).
+- UI: Books / Short stories switch in the library; stories are a list grouped by book (collapsed), sortable by year / A–Z, filterable by book, length, decade. Book searches also show matching stories.
+- `.github/workflows/snapshot-sources.yml` (manual) downloads the site, Wikipedia and Open Library sources to the `data-snapshot` branch for verification, since the dev sandbox can't reach them.
 
 ### Log: user's Google Sheet, tab `log` (one row per book, both trackers)
 Columns: `book_id`, `title`, `status` (unread | reading | read), `rating` (1–5), `comment`, `date_finished`, `owned` (yes/blank), `wishlist` (yes/blank), `formats` (comma list: hardcover, paperback, mass-market, ebook, audiobook), `acquired_on`, `copy_notes`, `updated_at`.

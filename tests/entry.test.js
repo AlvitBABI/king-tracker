@@ -105,3 +105,35 @@ test('search ignores punctuation and case', () => {
   assert.ok(searchKey("'Salem's Lot").includes(searchKey('salems lot')))
   assert.ok(searchKey('11/22/63').includes(searchKey('112263')))
 })
+
+// ---------------------------------------------------------------------------
+// Short stories data
+
+import { readFileSync } from 'node:fs'
+
+const stories = JSON.parse(readFileSync(new URL('../src/data/stories.json', import.meta.url)))
+const booksData = JSON.parse(readFileSync(new URL('../src/data/books.json', import.meta.url)))
+const skWorks = JSON.parse(readFileSync(new URL('../src/data/sk-works.json', import.meta.url)))
+
+test('stories: unique ids, valid dates, collections exist', () => {
+  const bookIds = new Set(booksData.map((b) => b.id))
+  const ids = new Set()
+  for (const s of stories) {
+    assert.ok(s.id.startsWith('story-'), s.id)
+    assert.ok(!ids.has(s.id) && !bookIds.has(s.id), `duplicate ${s.id}`)
+    ids.add(s.id)
+    assert.match(s.published, /^\d{4}(-\d{2}(-\d{2})?)?$/, s.title)
+    for (const c of s.collections) assert.ok(bookIds.has(c), `${s.title} -> ${c}`)
+    // a story can't appear before it was written into a book that came out earlier... but never after its collection
+    for (const c of s.collections) {
+      const b = booksData.find((x) => x.id === c)
+      assert.ok(s.published.slice(0, 4) <= b.published.slice(0, 4), `${s.title} published after ${b.title}`)
+    }
+  }
+})
+
+test('every short-story slug on the official site is mapped', () => {
+  const ids = new Set([...booksData, ...stories].map((x) => x.id))
+  for (const [slug, v] of Object.entries(skWorks)) if (typeof v === 'string') assert.ok(ids.has(v), `${slug} -> ${v}`)
+  for (const s of stories) assert.equal(skWorks[`short/${s.id.slice(6)}`], s.id)
+})

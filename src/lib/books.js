@@ -48,6 +48,7 @@ export const sortKey = (title) =>
     .replace(/^(the|a|an)\s+/, '')
 
 export function coverUrl(book, size = 'M') {
+  if (!book.olid && !book.isbn) return null
   const key = book.olid ? `olid/${book.olid}` : `isbn/${book.isbn}`
   return `https://covers.openlibrary.org/b/${key}-${size}.jpg?default=false`
 }

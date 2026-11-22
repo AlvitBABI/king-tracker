@@ -8,6 +8,8 @@ import { updateEntry, useStore } from '../lib/store.js'
 import BookCard, { Cover } from './BookCard.jsx'
 import { FilterIcon, HeartIcon, SearchIcon, ShareIcon, SortIcon } from './Icons.jsx'
 import Sheet from './Sheet.jsx'
+import StoriesView, { StoryList, storyMatchesQuery } from './StoriesView.jsx'
+import { stories } from '../lib/stories.js'
 
 const today = () => {
   const d = new Date()
@@ -57,10 +59,44 @@ function group(list, sort) {
   return groups
 }
 
-export default function LibraryView({ mode, filters, setFilters, sort, setSort, onOpen, justRead, onCelebrate }) {
+const SCOPES = [
+  { id: 'books', label: 'Books' },
+  { id: 'stories', label: 'Short stories' },
+]
+
+export default function LibraryView(props) {
+  const { scope, setScope, mode, storyFilters, setStoryFilters, storySort, setStorySort, onOpen } = props
+  const [query, setQuery] = useState('')
+  return (
+    <div className="library">
+      <div className={`scope-switch${mode === 'collection' ? ' gold' : ''}`} role="tablist" aria-label="Show">
+        {SCOPES.map((s) => (
+          <button key={s.id} role="tab" aria-selected={scope === s.id} className={scope === s.id ? 'on' : ''} onClick={() => setScope(s.id)}>
+            {s.label}
+          </button>
+        ))}
+      </div>
+      {scope === 'stories' ? (
+        <StoriesView
+          mode={mode}
+          filters={storyFilters}
+          setFilters={setStoryFilters}
+          sort={storySort}
+          setSort={setStorySort}
+          query={query}
+          setQuery={setQuery}
+          onOpen={onOpen}
+        />
+      ) : (
+        <BooksView {...props} query={query} setQuery={setQuery} onShowStories={() => setScope('stories')} />
+      )}
+    </div>
+  )
+}
+
+function BooksView({ mode, filters, setFilters, sort, setSort, onOpen, justRead, onCelebrate, query, setQuery, onShowStories }) {
   const log = useStore((s) => s.log)
   const scriptOutdated = useStore((s) => s.scriptVersion < SCRIPT_VERSION)
-  const [query, setQuery] = useState('')
   const [showFilters, setShowFilters] = useState(false)
   const collection = mode === 'collection'
 
@@ -109,8 +145,14 @@ export default function LibraryView({ mode, filters, setFilters, sort, setSort, 
   const chipKey = collection ? 'shelf' : 'status'
   const wishlist = useMemo(() => books.filter((b) => shelfOf(log[b.id]) === 'wishlist'), [log])
 
+  // Searching books also finds short stories, so "which book has The Mist?" works.
+  const storyHits = useMemo(() => {
+    const q = searchKey(query)
+    return q.length >= 3 ? stories.filter((st) => storyMatchesQuery(st, q)) : []
+  }, [query])
+
   return (
-    <div className="library">
+    <>
       <div className="toolbar">
         <label className="search">
           <SearchIcon width={18} height={18} />
@@ -166,7 +208,23 @@ export default function LibraryView({ mode, filters, setFilters, sort, setSort, 
         ))}
       </div>
 
+      {storyHits.length > 0 && (
+        <section className="story-hits">
+          <h2 className="group-label">
+            Short stories
+            <span>{storyHits.length}</span>
+          </h2>
+          <StoryList list={storyHits.slice(0, 4)} log={log} mode={mode} onOpen={onOpen} showBook />
+          {storyHits.length > 4 && (
+            <button className="link-btn" onClick={onShowStories}>
+              See all {storyHits.length} stories
+            </button>
+          )}
+        </section>
+      )}
+
       {shown === 0 ? (
+        storyHits.length ? null : (
         <div className="empty">
           <p className="empty-title">Nothing here… yet.</p>
           <p>{query ? `No book matches “${query}” with these filters.` : 'No books match these filters.'}</p>
@@ -180,6 +238,7 @@ export default function LibraryView({ mode, filters, setFilters, sort, setSort, 
             Clear filters
           </button>
         </div>
+        )
       ) : (
         groups.map((g) => (
           <section key={g.label} className="group">
@@ -207,7 +266,7 @@ export default function LibraryView({ mode, filters, setFilters, sort, setSort, 
       {showFilters && (
         <FilterSheet mode={mode} filters={filters} setFilters={setFilters} shown={shown} onClose={() => setShowFilters(false)} />
       )}
-    </div>
+    </>
   )
 }
 

@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { COLLECTOR_BADGES, evaluateBadges } from '../lib/badges.js'
 import { bookById, books, computeCollection, computeProgress, statusOf, TYPES } from '../lib/books.js'
 import { FORMATS, isOwned } from '../lib/entry.js'
+import { computeStories, STORY_BOOKS, storyStatus, UNCOLLECTED } from '../lib/stories.js'
 import { exportCsv } from '../lib/csv.js'
 import { useStore } from '../lib/store.js'
 import { Cover } from './BookCard.jsx'
@@ -255,6 +256,8 @@ function ReadingStats({ log, onOpen }) {
         </ul>
       </section>
 
+      <StoryStats log={log} />
+
       <section className="panel">
         <h3>Ratings</h3>
         {rated.length ? (
@@ -299,5 +302,34 @@ function ReadingStats({ log, onOpen }) {
       </section>
 
     </>
+  )
+}
+
+function StoryStats({ log }) {
+  const st = computeStories(log)
+  const rows = [...STORY_BOOKS, { book: null, stories: UNCOLLECTED }].map((g) => {
+    const done = g.stories.filter((s) => storyStatus(log, s).status === 'read').length
+    return { label: g.book ? g.book.title : 'Not in a book', value: done, total: g.stories.length, display: `${done}/${g.stories.length}` }
+  })
+  return (
+    <section className="panel">
+      <h3>
+        Short stories{' '}
+        <span className="muted">
+          {st.read} / {st.total} · {st.pct}%
+        </span>
+      </h3>
+      <ul className="barlist wide">
+        {rows.map((r) => (
+          <li key={r.label} aria-label={`${r.label}: ${r.display}`}>
+            <span className="bar-label">{r.label}</span>
+            <span className="bar-track">
+              <span className="bar-fill" style={{ width: `${(r.value / r.total) * 100}%` }} />
+            </span>
+            <span className="bar-value">{r.display}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
   )
 }

@@ -1,5 +1,6 @@
 import { books, statusOf, DECADES, decadeOf } from './books.js'
 import { isOwned, ratingOf } from './entry.js'
+import { computeStories } from './stories.js'
 
 const countRead = (log, list) => list.filter((b) => statusOf(log, b.id) === 'read').length
 const countOwned = (log, list) => list.filter((b) => isOwned(log[b.id])).length
@@ -30,6 +31,8 @@ export const BADGES = [
     desc: 'Read a book from every decade',
     check: (log) => [DECADES.filter((d) => books.some((b) => decadeOf(b) === d && statusOf(log, b.id) === 'read')).length, DECADES.length],
   },
+  { id: 'stories-10', icon: '🕯️', name: 'Bedtime Stories', desc: 'Read 10 short stories', check: (log) => [computeStories(log).read, 10] },
+  { id: 'stories-all', icon: '🦇', name: 'Night Shift Veteran', desc: 'Read every short story', check: (log) => [computeStories(log).read, computeStories(log).total] },
   { id: 'critic', icon: '⭐', name: 'Critic', desc: 'Rate 10 books', check: (log) => [Object.values(log).filter((e) => ratingOf(e)).length, 10] },
 ]
 

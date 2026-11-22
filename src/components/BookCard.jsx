@@ -6,7 +6,7 @@ import { CheckIcon, HeartIcon, PlusIcon, Stars } from './Icons.jsx'
 const FORMAT_SHORT = Object.fromEntries(FORMATS.map((f) => [f.id, f.short]))
 
 export function Cover({ book, size = 'M', className = '', eager = false }) {
-  const [failed, setFailed] = useState(false)
+  const [failed, setFailed] = useState(!coverUrl(book))
   return (
     <div
       className={`cover ${className}`}

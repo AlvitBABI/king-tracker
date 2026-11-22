@@ -1,5 +1,6 @@
 import { books, TYPE_LABEL } from './books.js'
 import { FORMATS, ratingOf } from './entry.js'
+import { stories, storyStatus } from './stories.js'
 
 const COLUMNS = ['title', 'published', 'type', 'pages', 'series', 'status', 'rating', 'date_finished', 'comment', 'owned', 'wishlist', 'formats', 'acquired_on', 'copy_notes']
 const FORMAT_LABEL = Object.fromEntries(FORMATS.map((f) => [f.id, f.label]))
@@ -29,6 +30,26 @@ export function buildCsv(log) {
       copy_notes: e.owned ? e.copy_notes || '' : '',
     }
   })
+  for (const st of stories) {
+    const e = log[st.id] || {}
+    const { status, via } = storyStatus(log, st)
+    rows.push({
+      title: st.title,
+      published: st.published,
+      type: st.length === 'novella' ? 'Short story (novella-length)' : 'Short story',
+      pages: '',
+      series: st.collections.map((id) => books.find((b) => b.id === id)?.title).join('; '),
+      status: via ? `read (via ${via.title})` : status,
+      rating: ratingOf(e) || '',
+      date_finished: e.status === 'read' ? e.date_finished || '' : '',
+      comment: e.comment || '',
+      owned: '',
+      wishlist: '',
+      formats: '',
+      acquired_on: '',
+      copy_notes: '',
+    })
+  }
   return [COLUMNS.join(','), ...rows.map((r) => COLUMNS.map((c) => cell(r[c])).join(','))].join('\r\n')
 }
 

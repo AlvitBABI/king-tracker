@@ -2,6 +2,9 @@ import { useCallback, useEffect, useState } from 'react'
 import BookSheet from './components/BookSheet.jsx'
 import { BooksIcon, ChartIcon, DiceIcon, GearIcon } from './components/Icons.jsx'
 import LibraryView from './components/LibraryView.jsx'
+import StorySheet from './components/StorySheet.jsx'
+import { EMPTY_STORY_FILTERS } from './components/StoriesView.jsx'
+import { isStoryId } from './lib/stories.js'
 import { EMPTY_FILTERS } from './lib/filters.js'
 import PickView from './components/PickView.jsx'
 import SettingsView, { NotConfigured } from './components/SettingsView.jsx'
@@ -127,6 +130,9 @@ export default function App() {
   const [sort, setSort] = usePersisted('kt.sort', 'date')
   const [mode, setMode] = usePersisted('kt.mode', 'reading')
   const [filters, setFilters] = useState(EMPTY_FILTERS)
+  const [scope, setScope] = usePersisted('kt.scope', 'books')
+  const [storySort, setStorySort] = usePersisted('kt.storySort', 'book')
+  const [storyFilters, setStoryFilters] = useState(EMPTY_STORY_FILTERS)
   useEffect(() => {
     document.documentElement.dataset.mode = mode
   }, [mode])
@@ -158,6 +164,12 @@ export default function App() {
       <main className="main">
         {tab === 'books' && (
           <LibraryView
+            scope={scope}
+            setScope={setScope}
+            storyFilters={storyFilters}
+            setStoryFilters={setStoryFilters}
+            storySort={storySort}
+            setStorySort={setStorySort}
             mode={mode}
             onCelebrate={onRead}
             filters={filters}
@@ -182,7 +194,12 @@ export default function App() {
         ))}
       </nav>
 
-      {openId && <BookSheet key={openId} bookId={openId} mode={mode} onClose={() => setOpenId(null)} onRead={onRead} />}
+      {openId &&
+        (isStoryId(openId) ? (
+          <StorySheet key={openId} storyId={openId} onClose={() => setOpenId(null)} onRead={onRead} onOpen={setOpenId} />
+        ) : (
+          <BookSheet key={openId} bookId={openId} mode={mode} onClose={() => setOpenId(null)} onRead={onRead} onOpen={setOpenId} />
+        ))}
     </div>
   )
 }
