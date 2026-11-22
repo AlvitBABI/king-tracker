@@ -1,0 +1,186 @@
+{
+  "collection/bazaar-of-bad-dreams": "the-bazaar-of-bad-dreams",
+  "collection/different-seasons": "different-seasons",
+  "collection/everythings-eventual": "everythings-eventual",
+  "collection/four-past-midnight": "four-past-midnight",
+  "collection/full-dark-no-stars": "full-dark-no-stars",
+  "collection/hearts-in-atlantis": "hearts-in-atlantis",
+  "collection/if-it-bleeds": "if-it-bleeds",
+  "collection/just-after-sunset": "just-after-sunset",
+  "collection/night-shift": "night-shift",
+  "collection/nightmares-dreamscapes": "nightmares-dreamscapes",
+  "collection/skeleton-crew": "skeleton-crew",
+  "collection/stephen-king-goes-to-the-movies": {
+    "ignore": "Compilation of previously collected stories"
+  },
+  "collection/you-like-it-darker": "you-like-it-darker",
+  "nonfiction/danse-macabre": "danse-macabre",
+  "nonfiction/faithful": "faithful",
+  "nonfiction/guns": "guns",
+  "nonfiction/mid-life-confidential-the-rock-bottom-remainders-tour-america-with-three-chords-and-an-attitude": "mid-life-confidential",
+  "nonfiction/nightmares-in-the-sky": "nightmares-in-the-sky",
+  "nonfiction/on-writing-a-memoir-of-the-craft": "on-writing",
+  "nonfiction/secret-windows-essays-and-fiction-on-the-craft-of-writing": "secret-windows",
+  "novel/11-22-63": "11-22-63",
+  "novel/bachman-books": {
+    "ignore": "Omnibus reprint of Rage, The Long Walk, Roadwork, The Running Man"
+  },
+  "novel/bag-of-bones": "bag-of-bones",
+  "novel/billy-summers": "billy-summers",
+  "novel/black-house": "black-house",
+  "novel/blaze": "blaze",
+  "novel/carrie": "carrie",
+  "novel/cell": "cell",
+  "novel/christine": "christine",
+  "novel/colorado-kid": "the-colorado-kid",
+  "novel/cujo": "cujo",
+  "novel/cycle-of-the-werewolf": "cycle-of-the-werewolf",
+  "novel/dark-half": "the-dark-half",
+  "novel/dark-tower": "the-dark-tower",
+  "novel/dark-tower-song-of-susannah": "song-of-susannah",
+  "novel/dark-tower-the-drawing-of-the-three": "the-drawing-of-the-three",
+  "novel/dark-tower-the-gunslinger": "the-gunslinger",
+  "novel/dark-tower-the-gunslinger-(revised)": {
+    "ignore": "Revised edition of The Gunslinger"
+  },
+  "novel/dark-tower-the-waste-lands": "the-waste-lands",
+  "novel/dark-tower-the-wind-through-the-keyhole": "the-wind-through-the-keyhole",
+  "novel/dark-tower-wizard-and-glass": "wizard-and-glass",
+  "novel/dark-tower-wolves-of-the-calla": "wolves-of-the-calla",
+  "novel/dead-zone": "the-dead-zone",
+  "novel/desperation": "desperation",
+  "novel/doctor-sleep": "doctor-sleep",
+  "novel/dolores-claiborne": "dolores-claiborne",
+  "novel/dreamcatcher": "dreamcatcher",
+  "novel/duma-key": "duma-key",
+  "novel/end-of-watch": "end-of-watch",
+  "novel/eyes-of-the-dragon": "the-eyes-of-the-dragon",
+  "novel/fairy-tale": "fairy-tale",
+  "novel/finders-keepers": "finders-keepers",
+  "novel/firestarter": "firestarter",
+  "novel/from-a-buick-8": "from-a-buick-8",
+  "novel/geralds-game": "geralds-game",
+  "novel/girl-who-loved-tom-gordon": "the-girl-who-loved-tom-gordon",
+  "novel/green-mile-coffey-on-the-mile": {
+    "ignore": "Part of The Green Mile serial (tracked as one book)"
+  },
+  "novel/green-mile-coffeys-hands": {
+    "ignore": "Part of The Green Mile serial (tracked as one book)"
+  },
+  "novel/green-mile-night-journey": {
+    "ignore": "Part of The Green Mile serial (tracked as one book)"
+  },
+  "novel/green-mile-the-bad-death-of-eduard-delacroix": {
+    "ignore": "Part of The Green Mile serial (tracked as one book)"
+  },
+  "novel/green-mile-the-complete-serial-novel": {
+    "ignore": "Reprint of The Green Mile"
+  },
+  "novel/green-mile-the-mouse-on-the-mile": {
+    "ignore": "Part of The Green Mile serial (tracked as one book)"
+  },
+  "novel/green-mile-the-two-dead-girls": "the-green-mile",
+  "novel/gwendys-final-task": "gwendys-final-task",
+  "novel/holly": "holly",
+  "novel/insomnia": "insomnia",
+  "novel/institute": "the-institute",
+  "novel/it": "it",
+  "novel/joyland": "joyland",
+  "novel/joyland-illustrated-edition": {
+    "ignore": "Illustrated edition of Joyland"
+  },
+  "novel/later": "later",
+  "novel/liseys-story": "liseys-story",
+  "novel/long-walk": "the-long-walk",
+  "novel/misery": "misery",
+  "novel/mr-mercedes": "mr-mercedes",
+  "novel/needful-things": "needful-things",
+  "novel/never-flinch": "never-flinch",
+  "novel/other-worlds-than-these": "other-worlds-than-these",
+  "novel/outsider": "the-outsider",
+  "novel/pet-sematary": "pet-sematary",
+  "novel/rage": "rage",
+  "novel/regulators": "the-regulators",
+  "novel/revival": "revival",
+  "novel/roadwork": "roadwork",
+  "novel/rose-madder": "rose-madder",
+  "novel/running-man": "the-running-man",
+  "novel/salems-lot": "salems-lot",
+  "novel/salems-lot-illustrated-edition": {
+    "ignore": "Illustrated edition of 'Salem's Lot"
+  },
+  "novel/shining": "the-shining",
+  "novel/sleeping-beauties": "sleeping-beauties",
+  "novel/stand": "the-stand",
+  "novel/stand-the-complete-uncut-edition": {
+    "ignore": "Uncut edition of The Stand"
+  },
+  "novel/talisman": "the-talisman",
+  "novel/thinner": "thinner",
+  "novel/tommyknockers": "the-tommyknockers",
+  "novel/under-the-dome": "under-the-dome",
+  "novella/a-very-tight-place": {
+    "ignore": "Novella collected in Just After Sunset (tracked via the collection)"
+  },
+  "novella/apt-pupil": {
+    "ignore": "Novella collected in Different Seasons (tracked via the collection)"
+  },
+  "novella/blind-willie": {
+    "ignore": "Novella collected in Hearts in Atlantis (tracked via the collection)"
+  },
+  "novella/blockade-billy": "blockade-billy",
+  "novella/body": {
+    "ignore": "Novella collected in Different Seasons (tracked via the collection)"
+  },
+  "novella/breathing-method": {
+    "ignore": "Novella collected in Different Seasons (tracked via the collection)"
+  },
+  "novella/elevation": "elevation",
+  "novella/gwendys-button-box": "gwendys-button-box",
+  "novella/hearts-in-atlantis": {
+    "ignore": "Novella collected in Hearts in Atlantis (tracked via the collection)"
+  },
+  "novella/heavenly-shades-of-night-are-falling": {
+    "ignore": "Novella collected in Hearts in Atlantis (tracked via the collection)"
+  },
+  "novella/if-it-bleeds": {
+    "ignore": "Novella collected in If It Bleeds (tracked via the collection)"
+  },
+  "novella/langoliers": {
+    "ignore": "Novella collected in Four Past Midnight (tracked via the collection)"
+  },
+  "novella/library-policeman": {
+    "ignore": "Novella collected in Four Past Midnight (tracked via the collection)"
+  },
+  "novella/life-of-chuck": {
+    "ignore": "Novella collected in If It Bleeds (tracked via the collection)"
+  },
+  "novella/low-men-in-yellow-coats": {
+    "ignore": "Novella collected in Hearts in Atlantis (tracked via the collection)"
+  },
+  "novella/mist": {
+    "ignore": "Novella collected in Skeleton Crew (tracked via the collection)"
+  },
+  "novella/mr-harrigans-phone": {
+    "ignore": "Novella collected in If It Bleeds (tracked via the collection)"
+  },
+  "novella/n": {
+    "ignore": "Novella collected in Just After Sunset (tracked via the collection)"
+  },
+  "novella/rat": {
+    "ignore": "Novella collected in If It Bleeds (tracked via the collection)"
+  },
+  "novella/rita-hayworth-and-shawshank-redemption": {
+    "ignore": "Novella collected in Different Seasons (tracked via the collection)"
+  },
+  "novella/secret-window-secret-garden": {
+    "ignore": "Novella collected in Four Past Midnight (tracked via the collection)"
+  },
+  "novella/sun-dog": {
+    "ignore": "Novella collected in Four Past Midnight (tracked via the collection)"
+  },
+  "novella/ur": "ur",
+  "novella/why-we-re-in-vietnam": {
+    "ignore": "Novella collected in Hearts in Atlantis (tracked via the collection)"
+  }
+}

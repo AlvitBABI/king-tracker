@@ -19,6 +19,10 @@ Personal web app to log which Stephen King books I've read, with ratings and pri
 Fields: `id` (stable slug), `title`, `published` (ISO date of first US publication), `type` (novel | collection | novella | non-fiction | bachman), `pages`, `series` (array, e.g. "Dark Tower", "Castle Rock", "Derry", "Bill Hodges", "Talisman"), `isbn` or `olid` for the cover.
 - Include ALL books: novels, collections, novellas, non-fiction, Bachman.
 - Verify every publication date against Open Library and Wikipedia before committing. No dates from memory.
+- The list follows https://stephenking.com/works/ (novel, novella, collection, nonfiction categories) with original works only: no limited/illustrated/revised editions, omnibuses, audiobooks, or novellas that only appeared inside a collection. Dates are the first US publication (the official site sometimes lists a later edition, so Wikipedia + Open Library win). Unknown day/month → reduced ISO (`1991-10`, `2000`).
+- `src/data/sk-works.json` maps every official-site slug to a book id or `{ "ignore": "reason" }`.
+- `.github/workflows/check-new-releases.yml` runs `scripts/check-new-releases.mjs` monthly and opens a `new-release` GitHub issue for any site slug missing from `sk-works.json`. Adding a book = verify dates, add to books.json, map the slug.
+- Covers: `olid` (Open Library's representative cover edition) is preferred over `isbn` when both exist.
 
 ### Reading log: user's Google Sheet, tab `log`
 Columns: `book_id`, `title`, `status` (unread | reading | read), `rating` (1–5), `comment`, `date_finished`, `updated_at`.

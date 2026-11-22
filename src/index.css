@@ -1,17 +1,51 @@
-:root {
-  --bg: #0d0b0b;
-  --surface: #1a1616;
-  --text: #ece6e1;
-  --muted: #9a8f88;
-  --accent: #c8102e;
-  --radius: 6px;
+@import '@fontsource/special-elite/400.css';
 
+:root,
+[data-theme='dark'] {
+  --bg: #0d0b0b;
+  --bg-elev: #171313;
+  --surface: #1f1919;
+  --surface-2: #2a2222;
+  --line: #2f2626;
+  --text: #efe8e1;
+  --muted: #a39890;
+  --accent: #d1142f;
+  --accent-strong: #ff3348;
+  --accent-ink: #fff;
+  --reading: #e0a526;
+  --shadow: 0 6px 18px rgb(0 0 0 / 0.55);
+  --glass: rgb(13 11 11 / 0.94);
   color-scheme: dark;
+}
+
+[data-theme='light'] {
+  --bg: #f4efe6;
+  --bg-elev: #fbf8f2;
+  --surface: #ebe3d6;
+  --surface-2: #e0d6c6;
+  --line: #d8ccba;
+  --text: #1d1716;
+  --muted: #6c6058;
+  --accent: #a80d24;
+  --accent-strong: #c8102e;
+  --accent-ink: #fff;
+  --reading: #a86d00;
+  --shadow: 0 4px 12px rgb(60 30 20 / 0.18);
+  --glass: rgb(244 239 230 / 0.95);
+  color-scheme: light;
+}
+
+:root {
+  --radius: 8px;
+  --font-type: 'Special Elite', 'Courier New', Courier, monospace;
+  --tabbar-h: 58px;
   font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-size: 16px;
   color: var(--text);
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
 }
 
 *,
@@ -20,19 +54,66 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  background: var(--bg);
+}
+
 body {
   margin: 0;
-  min-height: 100vh;
+  min-height: 100dvh;
+  overscroll-behavior-y: none;
+}
+
+body.no-scroll {
+  overflow: hidden;
 }
 
 h1,
 h2,
 h3,
-p {
+p,
+ol,
+ul,
+dl,
+dd,
+fieldset {
   margin: 0;
+  padding: 0;
+}
+
+fieldset {
+  border: 0;
 }
 
 button {
   font: inherit;
   color: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+input,
+textarea {
+  font: inherit;
+  font-size: 16px; /* stops iOS zooming into inputs */
+  color: var(--text);
+}
+
+a {
+  color: var(--accent-strong);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

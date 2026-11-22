@@ -1,43 +1,50 @@
-import { useState } from 'react'
+import { memo, useState } from 'react'
+import { coverUrl, TYPE_LABEL } from '../lib/books.js'
+import { CheckIcon, Stars } from './Icons.jsx'
 
-const TYPE_LABELS = {
-  collection: 'Collection',
-  novella: 'Novella',
-  'non-fiction': 'Non-fiction',
-  bachman: 'Bachman',
-}
-
-// default=false makes Open Library return 404 instead of a blank 1px image,
-// so onError can show our own placeholder.
-function coverUrl(book) {
-  const key = book.isbn ? `isbn/${book.isbn}` : `olid/${book.olid}`
-  return `https://covers.openlibrary.org/b/${key}-M.jpg?default=false`
-}
-
-export default function BookCard({ book }) {
+export function Cover({ book, size = 'M', className = '', eager = false }) {
   const [failed, setFailed] = useState(false)
-  const typeLabel = TYPE_LABELS[book.type]
-
   return (
-    <article className="card">
-      <div className="cover">
-        {failed ? (
-          <div className="cover-fallback">{book.title}</div>
-        ) : (
-          <img
-            src={coverUrl(book)}
-            alt={`Cover of ${book.title}`}
-            loading="lazy"
-            onError={() => setFailed(true)}
-          />
-        )}
-        {typeLabel && <span className={`badge badge-${book.type}`}>{typeLabel}</span>}
-      </div>
-      <h3 className="card-title">{book.title}</h3>
-      <p className="card-meta">
-        {book.published.slice(0, 4)}
-        {book.pages ? ` · ${book.pages} pp` : ''}
-      </p>
-    </article>
+    <div
+      className={`cover ${className}`}
+      // Large covers: show the (usually cached) medium image while the big one loads.
+      style={size === 'L' && !failed ? { backgroundImage: `url(${coverUrl(book, 'M')})`, backgroundSize: 'cover' } : undefined}
+    >
+      {failed ? (
+        <div className="cover-fallback">
+          <span>{book.title}</span>
+        </div>
+      ) : (
+        <img src={coverUrl(book, size)} alt="" loading={eager ? 'eager' : 'lazy'} decoding="async" onError={() => setFailed(true)} />
+      )}
+    </div>
   )
 }
+
+function BookCard({ book, entry, onOpen, justRead }) {
+  const status = entry?.status || 'unread'
+  return (
+    <button
+      className={`card status-${status}${justRead ? ' just-read' : ''}`}
+      onClick={() => onOpen(book.id)}
+      aria-label={`${book.title}, ${book.published.slice(0, 4)}, ${status}`}
+    >
+      <div className="cover-wrap">
+        <Cover book={book} />
+        {book.type !== 'novel' && <span className={`badge badge-${book.type}`}>{TYPE_LABEL[book.type]}</span>}
+        {status === 'read' && (
+          <span className="read-mark">
+            <CheckIcon width={14} height={14} />
+          </span>
+        )}
+        {status === 'reading' && <span className="reading-ribbon">Reading</span>}
+      </div>
+      <span className="card-title">{book.title}</span>
+      <span className="card-meta">
+        {entry?.rating ? <Stars value={entry.rating} size={11} /> : `${book.published.slice(0, 4)} · ${book.pages ?? '?'} pp`}
+      </span>
+    </button>
+  )
+}
+
+export default memo(BookCard)
