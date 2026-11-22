@@ -1,4 +1,5 @@
 import { books, statusOf, DECADES, decadeOf } from './books.js'
+import { ratingOf } from './entry.js'
 
 const countRead = (log, list) => list.filter((b) => statusOf(log, b.id) === 'read').length
 const inSeries = (name) => books.filter((b) => b.series.includes(name))
@@ -27,7 +28,7 @@ export const BADGES = [
     desc: 'Read a book from every decade',
     check: (log) => [DECADES.filter((d) => books.some((b) => decadeOf(b) === d && statusOf(log, b.id) === 'read')).length, DECADES.length],
   },
-  { id: 'critic', icon: '⭐', name: 'Critic', desc: 'Rate 10 books', check: (log) => [Object.values(log).filter((e) => e.rating).length, 10] },
+  { id: 'critic', icon: '⭐', name: 'Critic', desc: 'Rate 10 books', check: (log) => [Object.values(log).filter((e) => ratingOf(e)).length, 10] },
 ]
 
 export function evaluateBadges(log) {

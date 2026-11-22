@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { bookById, STATUSES, TYPE_LABEL } from '../lib/books.js'
 import { updateEntry, useStore } from '../lib/store.js'
 import { celebrate } from '../lib/celebrate.js'
@@ -18,15 +18,31 @@ export default function BookSheet({ bookId, onClose, onRead }) {
   // Local copy so typing stays smooth; saved to the store as you type.
   const [comment, setComment] = useState(entry?.comment || '')
 
+  // Leaving "Read" clears the rating and finish date; offer a few seconds to undo.
+  const [undo, setUndo] = useState(null)
+  const undoTimer = useRef(null)
+  useEffect(() => () => clearTimeout(undoTimer.current), [])
+
   const setStatus = (next) => {
     if (next === status) return
     const patch = { status: next }
-    if (next === 'read' && !entry?.date_finished) patch.date_finished = today()
+    if (next === 'read') patch.date_finished = today()
     updateEntry(book, patch)
+    clearTimeout(undoTimer.current)
+    if (status === 'read' && (entry?.rating || entry?.date_finished)) {
+      setUndo({ rating: entry.rating, date_finished: entry.date_finished })
+      undoTimer.current = setTimeout(() => setUndo(null), 5000)
+    } else setUndo(null)
     if (next === 'read') {
       celebrate()
       onRead?.(book.id)
     }
+  }
+
+  const undoClear = () => {
+    updateEntry(book, { status: 'read', ...undo })
+    clearTimeout(undoTimer.current)
+    setUndo(null)
   }
 
   const setRating = (n) => updateEntry(book, { rating: entry?.rating === n ? null : n })
@@ -115,6 +131,14 @@ export default function BookSheet({ bookId, onClose, onRead }) {
             }}
           />
         </label>
+      )}
+      {undo && (
+        <div className="toast" role="status">
+          <span>{undo.rating ? 'Rating and finish date cleared' : 'Finish date cleared'}</span>
+          <button className="toast-btn" onClick={undoClear}>
+            Undo
+          </button>
+        </div>
       )}
     </Sheet>
   )

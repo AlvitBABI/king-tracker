@@ -73,5 +73,6 @@ That's it. The dot in the top-right corner shows sync status:
 - **"Wrong secret key"**: re-copy the key from the `setup` log into the `SHEET_KEY` secret and redeploy. Running `setup` again shows the same key.
 - **"No Google Sheet is connected to this build"**: the secrets are missing or misspelled (`SHEET_URL`, `SHEET_KEY`). Add them and re-run the deploy.
 - **"Unexpected response…"**: the deployment's access isn't set to **Anyone**. Go to Deploy → Manage deployments → ✏️ edit → Who has access: Anyone.
-- **Changed the script later?** Use Deploy → Manage deployments → ✏️ → Version: **New version** so the URL stays the same.
+- **Changed the script later?** Paste the new `Code.gs`, save, then Deploy → Manage deployments → ✏️ → Version: **New version** so the URL stays the same. Run `setup` once more too: it's safe to repeat and also cleans up old rows (for example, a rating left on a book marked unread).
+- **Editing the sheet by hand** is fine: the script stamps `updated_at` on the row you edit, so the app keeps your change instead of overwriting it.
 - **New key:** in the Apps Script editor, open ⚙️ Project Settings → Script Properties, delete `KEY`, run `setup` again, then update the `SHEET_KEY` secret and redeploy.

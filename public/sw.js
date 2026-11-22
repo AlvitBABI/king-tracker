@@ -1,5 +1,7 @@
 // Minimal service worker: network-first for the app, cache-first for covers.
-const APP_CACHE = 'king-app-v1'
+// __BUILD_ID__ is replaced with a fresh id on every build (vite.config.js),
+// so each deploy gets a new app cache and old files are deleted.
+const APP_CACHE = 'king-app-__BUILD_ID__'
 const COVER_CACHE = 'king-covers-v1'
 
 self.addEventListener('install', () => self.skipWaiting())

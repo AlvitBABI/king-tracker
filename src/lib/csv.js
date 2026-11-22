@@ -1,4 +1,5 @@
 import { books, TYPE_LABEL } from './books.js'
+import { ratingOf } from './entry.js'
 
 const COLUMNS = ['title', 'published', 'type', 'pages', 'series', 'status', 'rating', 'date_finished', 'comment']
 
@@ -17,8 +18,8 @@ export function buildCsv(log) {
       pages: b.pages,
       series: b.series.join('; '),
       status: e.status || 'unread',
-      rating: e.rating || '',
-      date_finished: e.date_finished || '',
+      rating: ratingOf(e) || '',
+      date_finished: e.status === 'read' ? e.date_finished || '' : '',
       comment: e.comment || '',
     }
   })

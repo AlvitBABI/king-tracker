@@ -27,13 +27,16 @@ Fields: `id` (stable slug), `title`, `published` (ISO date of first US publicati
 ### Reading log: user's Google Sheet, tab `log`
 Columns: `book_id`, `title`, `status` (unread | reading | read), `rating` (1–5), `comment`, `date_finished`, `updated_at`.
 The title column is there so the sheet is readable on its own.
+Rule: `rating` and `date_finished` only exist when status is `read`. Leaving Read clears them (with a 5-second Undo). Enforced in `src/lib/entry.js` (`normalizeEntry` / `ratingOf`, used everywhere) and again in `Code.gs`.
 
 ## Google Sheets backend
 - `apps-script/Code.gs`: an Apps Script bound to the sheet, deployed as a web app (Execute as: me, Access: anyone).
   - `doGet` → returns all log rows as JSON
   - `doPost` → upserts one row by `book_id`
   - Every request must include a secret `key`, checked against a Script Property. Reject otherwise.
-  - Use `text/plain` POST bodies to avoid CORS preflight.
+  - Use `text/plain` POST bodies to avoid CORS preflight. Reads are POST `{key, action: "list"}` so the key never sits in a URL (GET kept for old clients).
+  - `onEdit` stamps `updated_at` on hand edits; `setup()` is re-runnable and cleans stale ratings/dates.
+- Tests: `npm test` (node:test, `tests/`), run in CI before the build.
 - Single sheet, single user: the script URL + key are baked in at build time (`VITE_SHEET_URL` / `VITE_SHEET_KEY`, from GitHub repo secrets `SHEET_URL` / `SHEET_KEY` in `deploy.yml`, or `.env.local` for dev). No settings form; the app opens straight into the log. Multi-account support may come later.
 - Optimistic UI: update the screen instantly, cache the log in localStorage, sync in the background, show a small sync indicator and retry on failure.
 - `SETUP.md`: a one-time guide (make the sheet → paste the script → deploy → add URL + key as repo secrets → redeploy).

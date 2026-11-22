@@ -1,6 +1,6 @@
 // Thin client for the Apps Script web app (see apps-script/Code.gs).
-// POST bodies are text/plain so the browser skips the CORS preflight,
-// which Apps Script can't answer.
+// Everything is a text/plain POST: the browser skips the CORS preflight
+// (which Apps Script can't answer) and the key never appears in a URL.
 
 async function parse(res) {
   if (!res.ok) throw new Error(`HTTP ${res.status}`)
@@ -14,18 +14,21 @@ async function parse(res) {
   return data
 }
 
+const post = (url, body) =>
+  fetch(url, {
+    method: 'POST',
+    redirect: 'follow',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(body),
+  }).then(parse)
+
 export async function fetchRows({ url, key }) {
+  const data = await post(url, { key, action: 'list' })
+  if (Array.isArray(data.rows)) return data.rows
+  // Older script version without the "list" action: fall back to GET.
   const sep = url.includes('?') ? '&' : '?'
   const res = await fetch(`${url}${sep}key=${encodeURIComponent(key)}`, { redirect: 'follow' })
   return (await parse(res)).rows || []
 }
 
-export async function pushRows({ url, key }, rows) {
-  const res = await fetch(url, {
-    method: 'POST',
-    redirect: 'follow',
-    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    body: JSON.stringify({ key, rows }),
-  })
-  return parse(res)
-}
+export const pushRows = ({ url, key }, rows) => post(url, { key, rows })

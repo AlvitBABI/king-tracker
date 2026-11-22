@@ -24,6 +24,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: npm test
       - run: npm run build
         env:
           # The one Google Sheet the app uses (repo Settings → Secrets and variables → Actions)

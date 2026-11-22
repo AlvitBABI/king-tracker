@@ -1346,3 +1346,39 @@
   font-size: 0.9em;
   color: var(--accent-strong);
 }
+
+/* ---------- Undo toast (inside a sheet) ---------- */
+.toast {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 10px 10px 14px;
+  border-radius: 12px;
+  background: var(--text);
+  color: var(--bg);
+  font-size: 0.9rem;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.35);
+  animation: toast-in 0.2s ease-out;
+}
+
+.toast-btn {
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--accent-strong);
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}

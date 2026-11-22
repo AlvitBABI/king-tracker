@@ -1,5 +1,6 @@
 import { memo, useState } from 'react'
 import { coverUrl, TYPE_LABEL } from '../lib/books.js'
+import { ratingOf } from '../lib/entry.js'
 import { CheckIcon, Stars } from './Icons.jsx'
 
 export function Cover({ book, size = 'M', className = '', eager = false }) {
@@ -23,6 +24,7 @@ export function Cover({ book, size = 'M', className = '', eager = false }) {
 
 function BookCard({ book, entry, onOpen, justRead }) {
   const status = entry?.status || 'unread'
+  const rating = ratingOf(entry)
   return (
     <button
       className={`card status-${status}${justRead ? ' just-read' : ''}`}
@@ -41,7 +43,7 @@ function BookCard({ book, entry, onOpen, justRead }) {
       </div>
       <span className="card-title">{book.title}</span>
       <span className="card-meta">
-        {entry?.rating ? <Stars value={entry.rating} size={11} /> : `${book.published.slice(0, 4)} · ${book.pages ?? '?'} pp`}
+        {rating ? <Stars value={rating} size={11} /> : `${book.published.slice(0, 4)} · ${book.pages ?? '?'} pp`}
       </span>
     </button>
   )

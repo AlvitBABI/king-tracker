@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { ratingOf } from '../lib/entry.js'
 import { EMPTY_FILTERS } from '../lib/filters.js'
 import { books, DECADES, decadeOf, LENGTHS, SERIES, sortKey, STATUSES, statusOf, TYPES } from '../lib/books.js'
 import { useStore } from '../lib/store.js'
@@ -23,7 +24,7 @@ function matches(book, entry, f, q) {
   if (f.series.length && !book.series.some((s) => f.series.includes(s))) return false
   if (f.lengths.length && !LENGTHS.some((l) => f.lengths.includes(l.id) && book.pages && l.test(book.pages))) return false
   if (f.decades.length && !f.decades.includes(decadeOf(book))) return false
-  if (f.ratings.length && !f.ratings.includes(entry?.rating || 0)) return false
+  if (f.ratings.length && !f.ratings.includes(ratingOf(entry) || 0)) return false
   if (q && !book.title.toLowerCase().includes(q)) return false
   return true
 }
