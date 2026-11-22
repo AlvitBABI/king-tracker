@@ -1,0 +1,832 @@
+[
+  {
+    "id": "carrie",
+    "title": "Carrie",
+    "published": "1974-04-05",
+    "type": "novel",
+    "pages": 199,
+    "series": [],
+    "isbn": "9780385086950"
+  },
+  {
+    "id": "salems-lot",
+    "title": "'Salem's Lot",
+    "published": "1975-10-17",
+    "type": "novel",
+    "pages": 439,
+    "series": [],
+    "isbn": "9780385007511"
+  },
+  {
+    "id": "the-shining",
+    "title": "The Shining",
+    "published": "1977-01-28",
+    "type": "novel",
+    "pages": 447,
+    "series": [
+      "The Shining"
+    ],
+    "isbn": "9780385121675"
+  },
+  {
+    "id": "rage",
+    "title": "Rage",
+    "published": "1977-09-13",
+    "type": "bachman",
+    "pages": 211,
+    "series": [],
+    "isbn": "9780451076458"
+  },
+  {
+    "id": "night-shift",
+    "title": "Night Shift",
+    "published": "1978-02-17",
+    "type": "collection",
+    "pages": 336,
+    "series": [],
+    "olid": "OL27901886M"
+  },
+  {
+    "id": "the-stand",
+    "title": "The Stand",
+    "published": "1978-10-03",
+    "type": "novel",
+    "pages": 823,
+    "series": [],
+    "olid": "OL25159731M"
+  },
+  {
+    "id": "the-long-walk",
+    "title": "The Long Walk",
+    "published": "1979-07-03",
+    "type": "bachman",
+    "pages": 384,
+    "series": [],
+    "isbn": "9780451087546"
+  },
+  {
+    "id": "the-dead-zone",
+    "title": "The Dead Zone",
+    "published": "1979-08-16",
+    "type": "novel",
+    "pages": 428,
+    "series": [
+      "Castle Rock"
+    ],
+    "olid": "OL50998939M"
+  },
+  {
+    "id": "firestarter",
+    "title": "Firestarter",
+    "published": "1980-09-29",
+    "type": "novel",
+    "pages": 426,
+    "series": [],
+    "isbn": "9780670315413"
+  },
+  {
+    "id": "roadwork",
+    "title": "Roadwork",
+    "published": "1981-03-03",
+    "type": "bachman",
+    "pages": 274,
+    "series": [],
+    "olid": "OL15049266M"
+  },
+  {
+    "id": "danse-macabre",
+    "title": "Danse Macabre",
+    "published": "1981-04-20",
+    "type": "non-fiction",
+    "pages": 400,
+    "series": [],
+    "isbn": "9780896960763"
+  },
+  {
+    "id": "cujo",
+    "title": "Cujo",
+    "published": "1981-09-08",
+    "type": "novel",
+    "pages": 319,
+    "series": [
+      "Castle Rock"
+    ],
+    "isbn": "9780670451937"
+  },
+  {
+    "id": "the-running-man",
+    "title": "The Running Man",
+    "published": "1982-05-04",
+    "type": "bachman",
+    "pages": 219,
+    "series": [],
+    "isbn": "9780451115089"
+  },
+  {
+    "id": "the-gunslinger",
+    "title": "The Gunslinger",
+    "published": "1982-06-10",
+    "type": "novel",
+    "pages": 224,
+    "series": [
+      "Dark Tower"
+    ],
+    "isbn": "9780937986509"
+  },
+  {
+    "id": "different-seasons",
+    "title": "Different Seasons",
+    "published": "1982-08-27",
+    "type": "collection",
+    "pages": 527,
+    "series": [],
+    "isbn": "9780670272662"
+  },
+  {
+    "id": "christine",
+    "title": "Christine",
+    "published": "1983-04-29",
+    "type": "novel",
+    "pages": 526,
+    "series": [],
+    "isbn": "9780670220267"
+  },
+  {
+    "id": "cycle-of-the-werewolf",
+    "title": "Cycle of the Werewolf",
+    "published": "1983-11",
+    "type": "novella",
+    "pages": 127,
+    "series": [],
+    "isbn": "9780960382828"
+  },
+  {
+    "id": "pet-sematary",
+    "title": "Pet Sematary",
+    "published": "1983-11-14",
+    "type": "novel",
+    "pages": 374,
+    "series": [],
+    "isbn": "9780385182447"
+  },
+  {
+    "id": "the-eyes-of-the-dragon",
+    "title": "The Eyes of the Dragon",
+    "published": "1984",
+    "type": "novel",
+    "pages": 326,
+    "series": [],
+    "isbn": "9780670814589"
+  },
+  {
+    "id": "the-talisman",
+    "title": "The Talisman",
+    "published": "1984-11-07",
+    "type": "novel",
+    "pages": 646,
+    "series": [
+      "Talisman"
+    ],
+    "isbn": "9780670691999"
+  },
+  {
+    "id": "thinner",
+    "title": "Thinner",
+    "published": "1984-11-19",
+    "type": "bachman",
+    "pages": 309,
+    "series": [],
+    "isbn": "9780453004688"
+  },
+  {
+    "id": "skeleton-crew",
+    "title": "Skeleton Crew",
+    "published": "1985-06-21",
+    "type": "collection",
+    "pages": 512,
+    "series": [],
+    "isbn": "9780399130397"
+  },
+  {
+    "id": "it",
+    "title": "It",
+    "published": "1986-09-15",
+    "type": "novel",
+    "pages": 1138,
+    "series": [
+      "Derry"
+    ],
+    "isbn": "9780670813025"
+  },
+  {
+    "id": "the-drawing-of-the-three",
+    "title": "The Drawing of the Three",
+    "published": "1987-05",
+    "type": "novel",
+    "pages": 400,
+    "series": [
+      "Dark Tower"
+    ],
+    "isbn": "9780937986905"
+  },
+  {
+    "id": "misery",
+    "title": "Misery",
+    "published": "1987-06-08",
+    "type": "novel",
+    "pages": 310,
+    "series": [],
+    "isbn": "9780670813643"
+  },
+  {
+    "id": "the-tommyknockers",
+    "title": "The Tommyknockers",
+    "published": "1987-11-11",
+    "type": "novel",
+    "pages": 558,
+    "series": [],
+    "isbn": "9780399133145"
+  },
+  {
+    "id": "nightmares-in-the-sky",
+    "title": "Nightmares in the Sky",
+    "published": "1988",
+    "type": "non-fiction",
+    "pages": 128,
+    "series": [],
+    "isbn": "9780670823079"
+  },
+  {
+    "id": "the-dark-half",
+    "title": "The Dark Half",
+    "published": "1989-10-20",
+    "type": "novel",
+    "pages": 431,
+    "series": [
+      "Castle Rock"
+    ],
+    "isbn": "9780670829828"
+  },
+  {
+    "id": "four-past-midnight",
+    "title": "Four Past Midnight",
+    "published": "1990-09-24",
+    "type": "collection",
+    "pages": 763,
+    "series": [],
+    "isbn": "9780670835386"
+  },
+  {
+    "id": "the-waste-lands",
+    "title": "The Waste Lands",
+    "published": "1991-09-03",
+    "type": "novel",
+    "pages": 512,
+    "series": [
+      "Dark Tower"
+    ],
+    "isbn": "9780937986172"
+  },
+  {
+    "id": "needful-things",
+    "title": "Needful Things",
+    "published": "1991-10",
+    "type": "novel",
+    "pages": 690,
+    "series": [
+      "Castle Rock"
+    ],
+    "isbn": "9780670839537"
+  },
+  {
+    "id": "geralds-game",
+    "title": "Gerald's Game",
+    "published": "1992-05",
+    "type": "novel",
+    "pages": 352,
+    "series": [],
+    "isbn": "9780670846504"
+  },
+  {
+    "id": "dolores-claiborne",
+    "title": "Dolores Claiborne",
+    "published": "1992-11",
+    "type": "novel",
+    "pages": 305,
+    "series": [],
+    "isbn": "9780670844524"
+  },
+  {
+    "id": "nightmares-dreamscapes",
+    "title": "Nightmares & Dreamscapes",
+    "published": "1993-09-29",
+    "type": "collection",
+    "pages": 816,
+    "series": [],
+    "isbn": "9780670851089"
+  },
+  {
+    "id": "insomnia",
+    "title": "Insomnia",
+    "published": "1994-10-10",
+    "type": "novel",
+    "pages": 787,
+    "series": [
+      "Derry"
+    ],
+    "isbn": "9780670855032"
+  },
+  {
+    "id": "rose-madder",
+    "title": "Rose Madder",
+    "published": "1995-07-10",
+    "type": "novel",
+    "pages": 420,
+    "series": [],
+    "isbn": "9780670858699"
+  },
+  {
+    "id": "the-green-mile",
+    "title": "The Green Mile",
+    "published": "1996-03-28",
+    "type": "novel",
+    "pages": 400,
+    "series": [],
+    "isbn": "9780452278905"
+  },
+  {
+    "id": "desperation",
+    "title": "Desperation",
+    "published": "1996-09-24",
+    "type": "novel",
+    "pages": 704,
+    "series": [],
+    "isbn": "9780670868360"
+  },
+  {
+    "id": "the-regulators",
+    "title": "The Regulators",
+    "published": "1996-09-24",
+    "type": "bachman",
+    "pages": 480,
+    "series": [],
+    "isbn": "9780525941903"
+  },
+  {
+    "id": "wizard-and-glass",
+    "title": "Wizard and Glass",
+    "published": "1997-08-09",
+    "type": "novel",
+    "pages": 787,
+    "series": [
+      "Dark Tower"
+    ],
+    "isbn": "9781880418383"
+  },
+  {
+    "id": "bag-of-bones",
+    "title": "Bag of Bones",
+    "published": "1998-09-22",
+    "type": "novel",
+    "pages": 529,
+    "series": [],
+    "isbn": "9780684853505"
+  },
+  {
+    "id": "the-girl-who-loved-tom-gordon",
+    "title": "The Girl Who Loved Tom Gordon",
+    "published": "1999-04-06",
+    "type": "novel",
+    "pages": 224,
+    "series": [],
+    "isbn": "9780684867625"
+  },
+  {
+    "id": "hearts-in-atlantis",
+    "title": "Hearts in Atlantis",
+    "published": "1999-09-14",
+    "type": "collection",
+    "pages": 528,
+    "series": [],
+    "isbn": "9780684853512"
+  },
+  {
+    "id": "on-writing",
+    "title": "On Writing",
+    "published": "2000",
+    "type": "non-fiction",
+    "pages": 288,
+    "series": [],
+    "isbn": "9780684853529"
+  },
+  {
+    "id": "secret-windows",
+    "title": "Secret Windows",
+    "published": "2000-10",
+    "type": "non-fiction",
+    "pages": 433,
+    "series": [],
+    "isbn": "9780965018517"
+  },
+  {
+    "id": "dreamcatcher",
+    "title": "Dreamcatcher",
+    "published": "2001-03-20",
+    "type": "novel",
+    "pages": 620,
+    "series": [
+      "Derry"
+    ],
+    "isbn": "9780743211383"
+  },
+  {
+    "id": "black-house",
+    "title": "Black House",
+    "published": "2001-09-15",
+    "type": "novel",
+    "pages": 625,
+    "series": [
+      "Talisman"
+    ],
+    "isbn": "9780375504396"
+  },
+  {
+    "id": "everythings-eventual",
+    "title": "Everything's Eventual",
+    "published": "2002-03-19",
+    "type": "collection",
+    "pages": 464,
+    "series": [],
+    "isbn": "9780743235150"
+  },
+  {
+    "id": "from-a-buick-8",
+    "title": "From a Buick 8",
+    "published": "2002-09-24",
+    "type": "novel",
+    "pages": 368,
+    "series": [],
+    "isbn": "9780743211376"
+  },
+  {
+    "id": "wolves-of-the-calla",
+    "title": "Wolves of the Calla",
+    "published": "2003-10",
+    "type": "novel",
+    "pages": 714,
+    "series": [
+      "Dark Tower"
+    ],
+    "isbn": "9781880418567"
+  },
+  {
+    "id": "song-of-susannah",
+    "title": "Song of Susannah",
+    "published": "2004-06-08",
+    "type": "novel",
+    "pages": 432,
+    "series": [
+      "Dark Tower"
+    ],
+    "isbn": "9781880418598"
+  },
+  {
+    "id": "the-dark-tower",
+    "title": "The Dark Tower",
+    "published": "2004-09-21",
+    "type": "novel",
+    "pages": 845,
+    "series": [
+      "Dark Tower"
+    ],
+    "isbn": "9781880418628"
+  },
+  {
+    "id": "faithful",
+    "title": "Faithful",
+    "published": "2004-12-02",
+    "type": "non-fiction",
+    "pages": 432,
+    "series": [],
+    "isbn": "9780743267526"
+  },
+  {
+    "id": "the-colorado-kid",
+    "title": "The Colorado Kid",
+    "published": "2005-10-04",
+    "type": "novel",
+    "pages": 184,
+    "series": [],
+    "isbn": "9780843955842"
+  },
+  {
+    "id": "cell",
+    "title": "Cell",
+    "published": "2006-02-01",
+    "type": "novel",
+    "pages": 351,
+    "series": [],
+    "isbn": "9780743292337"
+  },
+  {
+    "id": "liseys-story",
+    "title": "Lisey's Story",
+    "published": "2006-10-24",
+    "type": "novel",
+    "pages": 528,
+    "series": [],
+    "isbn": "9780743289412"
+  },
+  {
+    "id": "blaze",
+    "title": "Blaze",
+    "published": "2007-06-12",
+    "type": "bachman",
+    "pages": 304,
+    "series": [],
+    "isbn": "9781416554844"
+  },
+  {
+    "id": "duma-key",
+    "title": "Duma Key",
+    "published": "2008-01-22",
+    "type": "novel",
+    "pages": 607,
+    "series": [],
+    "isbn": "9781416552512"
+  },
+  {
+    "id": "just-after-sunset",
+    "title": "Just After Sunset",
+    "published": "2008-11-11",
+    "type": "collection",
+    "pages": 386,
+    "series": [],
+    "isbn": "9781416584087"
+  },
+  {
+    "id": "under-the-dome",
+    "title": "Under the Dome",
+    "published": "2009-11-10",
+    "type": "novel",
+    "pages": 1074,
+    "series": [],
+    "isbn": "9781439148501"
+  },
+  {
+    "id": "blockade-billy",
+    "title": "Blockade Billy",
+    "published": "2010-04-20",
+    "type": "novella",
+    "pages": 132,
+    "series": [],
+    "isbn": "9781451608212"
+  },
+  {
+    "id": "full-dark-no-stars",
+    "title": "Full Dark, No Stars",
+    "published": "2010-11-09",
+    "type": "collection",
+    "pages": 368,
+    "series": [],
+    "isbn": "9781439192566"
+  },
+  {
+    "id": "11-22-63",
+    "title": "11/22/63",
+    "published": "2011-11-08",
+    "type": "novel",
+    "pages": 849,
+    "series": [
+      "Derry"
+    ],
+    "isbn": "9781451627282"
+  },
+  {
+    "id": "the-wind-through-the-keyhole",
+    "title": "The Wind Through the Keyhole",
+    "published": "2012-02-21",
+    "type": "novel",
+    "pages": 336,
+    "series": [
+      "Dark Tower"
+    ],
+    "olid": "OL33995480M"
+  },
+  {
+    "id": "joyland",
+    "title": "Joyland",
+    "published": "2013-06-04",
+    "type": "novel",
+    "pages": 288,
+    "series": [],
+    "isbn": "9781781162644"
+  },
+  {
+    "id": "doctor-sleep",
+    "title": "Doctor Sleep",
+    "published": "2013-09-24",
+    "type": "novel",
+    "pages": 531,
+    "series": [
+      "The Shining"
+    ],
+    "isbn": "9781476727653"
+  },
+  {
+    "id": "mr-mercedes",
+    "title": "Mr. Mercedes",
+    "published": "2014-06-03",
+    "type": "novel",
+    "pages": 436,
+    "series": [
+      "Bill Hodges",
+      "Holly Gibney"
+    ],
+    "isbn": "9781476754451"
+  },
+  {
+    "id": "revival",
+    "title": "Revival",
+    "published": "2014-11-11",
+    "type": "novel",
+    "pages": 403,
+    "series": [],
+    "isbn": "9781476770383"
+  },
+  {
+    "id": "finders-keepers",
+    "title": "Finders Keepers",
+    "published": "2015-06-02",
+    "type": "novel",
+    "pages": 434,
+    "series": [
+      "Bill Hodges",
+      "Holly Gibney"
+    ],
+    "isbn": "9781501100079"
+  },
+  {
+    "id": "the-bazaar-of-bad-dreams",
+    "title": "The Bazaar of Bad Dreams",
+    "published": "2015-11-03",
+    "type": "collection",
+    "pages": 495,
+    "series": [],
+    "isbn": "9781501111679"
+  },
+  {
+    "id": "end-of-watch",
+    "title": "End of Watch",
+    "published": "2016-06-07",
+    "type": "novel",
+    "pages": 432,
+    "series": [
+      "Bill Hodges",
+      "Holly Gibney"
+    ],
+    "isbn": "9781501129742"
+  },
+  {
+    "id": "gwendys-button-box",
+    "title": "Gwendy's Button Box",
+    "published": "2017-05-16",
+    "type": "novella",
+    "pages": 175,
+    "series": [
+      "Castle Rock",
+      "Gwendy"
+    ],
+    "isbn": "9781587676109"
+  },
+  {
+    "id": "sleeping-beauties",
+    "title": "Sleeping Beauties",
+    "published": "2017-09-26",
+    "type": "novel",
+    "pages": 702,
+    "series": [],
+    "isbn": "9781501163401"
+  },
+  {
+    "id": "the-outsider",
+    "title": "The Outsider",
+    "published": "2018-05-22",
+    "type": "novel",
+    "pages": 576,
+    "series": [
+      "Holly Gibney"
+    ],
+    "isbn": "9781501180989"
+  },
+  {
+    "id": "elevation",
+    "title": "Elevation",
+    "published": "2018-10-30",
+    "type": "novella",
+    "pages": 144,
+    "series": [
+      "Castle Rock"
+    ],
+    "isbn": "9781982102319"
+  },
+  {
+    "id": "the-institute",
+    "title": "The Institute",
+    "published": "2019-09-10",
+    "type": "novel",
+    "pages": 576,
+    "series": [],
+    "isbn": "9781982110567"
+  },
+  {
+    "id": "if-it-bleeds",
+    "title": "If It Bleeds",
+    "published": "2020-04-21",
+    "type": "collection",
+    "pages": 448,
+    "series": [],
+    "isbn": "9781982137977"
+  },
+  {
+    "id": "later",
+    "title": "Later",
+    "published": "2021-03-02",
+    "type": "novel",
+    "pages": 256,
+    "series": [],
+    "isbn": "9781789096491"
+  },
+  {
+    "id": "billy-summers",
+    "title": "Billy Summers",
+    "published": "2021-08-03",
+    "type": "novel",
+    "pages": 528,
+    "series": [],
+    "isbn": "9781982173616"
+  },
+  {
+    "id": "gwendys-final-task",
+    "title": "Gwendy's Final Task",
+    "published": "2022-02-15",
+    "type": "novel",
+    "pages": 412,
+    "series": [
+      "Castle Rock",
+      "Gwendy"
+    ],
+    "isbn": "9781587678011"
+  },
+  {
+    "id": "fairy-tale",
+    "title": "Fairy Tale",
+    "published": "2022-09-06",
+    "type": "novel",
+    "pages": 599,
+    "series": [],
+    "isbn": "9781668002179"
+  },
+  {
+    "id": "holly",
+    "title": "Holly",
+    "published": "2023-09-05",
+    "type": "novel",
+    "pages": 449,
+    "series": [
+      "Holly Gibney"
+    ],
+    "isbn": "9781668016138"
+  },
+  {
+    "id": "you-like-it-darker",
+    "title": "You Like It Darker",
+    "published": "2024-05-21",
+    "type": "collection",
+    "pages": 502,
+    "series": [],
+    "isbn": "9781668037713"
+  },
+  {
+    "id": "never-flinch",
+    "title": "Never Flinch",
+    "published": "2025-05-27",
+    "type": "novel",
+    "pages": 448,
+    "series": [
+      "Holly Gibney"
+    ],
+    "isbn": "9781668089330"
+  },
+  {
+    "id": "other-worlds-than-these",
+    "title": "Other Worlds Than These",
+    "published": "2026-10-06",
+    "type": "novel",
+    "pages": 691,
+    "series": [
+      "Talisman"
+    ],
+    "isbn": "9781668233092"
+  }
+]

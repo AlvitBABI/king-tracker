@@ -1,0 +1,150 @@
+.app {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: calc(env(safe-area-inset-top) + 16px) 14px calc(env(safe-area-inset-bottom) + 32px);
+}
+
+/* Header */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  margin: 0 -14px;
+  padding: calc(env(safe-area-inset-top) + 10px) 14px 12px;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid #2a2323;
+  text-align: center;
+}
+
+.header h1 {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.8rem;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+}
+
+.subtitle {
+  margin-top: 2px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.sort-toggle {
+  display: inline-flex;
+  margin-top: 10px;
+  padding: 3px;
+  background: var(--surface);
+  border-radius: 999px;
+}
+
+.sort-toggle button {
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.sort-toggle button.active {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* Groups (decades / letters) */
+.group {
+  margin-top: 22px;
+}
+
+.group-label {
+  margin-bottom: 10px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.1rem;
+  color: var(--muted);
+  border-bottom: 1px solid #2a2323;
+  padding-bottom: 4px;
+}
+
+/* Grid */
+.grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px 12px;
+}
+
+@media (min-width: 600px) {
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+}
+
+/* Card */
+.cover {
+  position: relative;
+  aspect-ratio: 2 / 3;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--surface);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.5);
+}
+
+.cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cover-fallback {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  text-align: center;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  font-size: 0.85rem;
+  color: var(--accent);
+  background: linear-gradient(160deg, #2a1414, #0d0b0b);
+}
+
+.badge {
+  position: absolute;
+  left: 4px;
+  bottom: 4px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  background: rgb(0 0 0 / 0.75);
+  color: #fff;
+}
+
+.badge-bachman {
+  background: var(--accent);
+}
+
+.card-title {
+  margin-top: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.25;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-meta {
+  margin-top: 2px;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
