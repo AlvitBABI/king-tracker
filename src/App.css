@@ -1341,12 +1341,8 @@
   line-height: 1.5;
 }
 
-.welcome .sheet-form,
-.welcome-options {
-  text-align: left;
-}
 
-.welcome-options p {
-  margin-top: 16px;
-  line-height: 1.5;
+.welcome-lead code {
+  font-size: 0.9em;
+  color: var(--accent-strong);
 }

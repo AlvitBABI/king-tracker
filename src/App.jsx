@@ -4,10 +4,10 @@ import { BooksIcon, ChartIcon, DiceIcon, GearIcon } from './components/Icons.jsx
 import LibraryView from './components/LibraryView.jsx'
 import { EMPTY_FILTERS } from './lib/filters.js'
 import PickView from './components/PickView.jsx'
-import SettingsView, { Welcome } from './components/SettingsView.jsx'
+import SettingsView, { NotConfigured } from './components/SettingsView.jsx'
 import StatsView from './components/StatsView.jsx'
 import { computeProgress } from './lib/books.js'
-import { syncNow, useStore } from './lib/store.js'
+import { hasSheet, syncNow, useStore } from './lib/store.js'
 import './App.css'
 
 const TABS = [
@@ -46,8 +46,7 @@ function useTheme() {
 }
 
 function SyncDot() {
-  const { settings, sync, pending } = useStore()
-  if (settings?.mode !== 'sheet') return null
+  const { sync, pending } = useStore()
   const n = Object.keys(pending).length
   const label =
     sync === 'syncing' ? 'Syncing…' : sync === 'error' ? 'Sync failed – retrying' : sync === 'offline' ? 'Offline' : n ? 'Waiting to sync' : 'Saved to your sheet'
@@ -84,7 +83,6 @@ function Header() {
 }
 
 export default function App() {
-  const settings = useStore((s) => s.settings)
   const [theme, setTheme] = useTheme()
   const [tab, setTab] = usePersisted('kt.tab', 'books')
   const [sort, setSort] = usePersisted('kt.sort', 'date')
@@ -109,7 +107,7 @@ export default function App() {
     }
   }
 
-  if (!settings) return <Welcome />
+  if (!hasSheet) return <NotConfigured />
 
   return (
     <div className="app">

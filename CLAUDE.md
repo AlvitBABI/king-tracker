@@ -34,13 +34,13 @@ The title column is there so the sheet is readable on its own.
   - `doPost` → upserts one row by `book_id`
   - Every request must include a secret `key`, checked against a Script Property. Reject otherwise.
   - Use `text/plain` POST bodies to avoid CORS preflight.
-- Client: the first-run settings screen asks for the script URL + key and stores them in localStorage ("bring your own sheet", so friends can use their own copy).
+- Single sheet, single user: the script URL + key are baked in at build time (`VITE_SHEET_URL` / `VITE_SHEET_KEY`, from GitHub repo secrets `SHEET_URL` / `SHEET_KEY` in `deploy.yml`, or `.env.local` for dev). No settings form; the app opens straight into the log. Multi-account support may come later.
 - Optimistic UI: update the screen instantly, cache the log in localStorage, sync in the background, show a small sync indicator and retry on failure.
-- `SETUP.md`: a 5-minute guide (copy the template sheet → paste the script → deploy → paste URL + key into the app).
+- `SETUP.md`: a one-time guide (make the sheet → paste the script → deploy → add URL + key as repo secrets → redeploy).
 
 ## Phases
 1. **Catalogue**: books.json, cover grid, sort by release date / A–Z toggle.
-2. **Reading log**: status per book; when Read → date finished, 1–5 stars, private comment; Sheets sync + settings screen + SETUP.md.
+2. **Reading log**: status per book; when Read → date finished, 1–5 stars, private comment; Sheets sync + SETUP.md.
 3. **Fun layer**:
    - Progress bar ("23 / 90 read · 26%") plus total pages read
    - Confetti and animation when a book is marked Read

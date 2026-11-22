@@ -1,11 +1,11 @@
 import { useSyncExternalStore } from 'react'
+import { sheet } from './config.js'
 import { fetchRows, pushRows } from './sheets.js'
 
 // Reading log store: the screen updates instantly, everything is cached in
 // localStorage, and edits are queued and pushed to the sheet in the background.
 
 const LS = {
-  settings: 'kt.settings',
   log: 'kt.log',
   pending: 'kt.pending',
   lastSync: 'kt.lastSync',
@@ -21,7 +21,6 @@ const read = (k, fallback) => {
 const write = (k, v) => localStorage.setItem(k, JSON.stringify(v))
 
 let state = {
-  settings: read(LS.settings, null), // { mode: 'sheet' | 'local', url, key }
   log: read(LS.log, {}), // book_id -> entry
   pending: read(LS.pending, {}), // book_id -> entry not yet saved to the sheet
   sync: 'idle', // idle | syncing | error | offline
@@ -44,7 +43,7 @@ export function useStore(selector = (s) => s) {
 }
 export const getState = () => state
 
-const hasSheet = () => state.settings?.mode === 'sheet' && state.settings.url && state.settings.key
+export const hasSheet = Boolean(sheet)
 
 // ---------------------------------------------------------------------------
 // Editing
@@ -74,14 +73,14 @@ function scheduleFlush(delay = 800) {
 }
 
 async function flush() {
-  if (!hasSheet()) return
+  if (!hasSheet) return
   const rows = Object.values(state.pending)
   if (!rows.length) return
   if (inFlight) return scheduleFlush(1000)
   if (!navigator.onLine) return set({ sync: 'offline' })
 
   set({ sync: 'syncing', syncError: null })
-  inFlight = pushRows(state.settings, rows)
+  inFlight = pushRows(sheet, rows)
   try {
     await inFlight
     // Drop only what we sent; anything edited meanwhile stays queued.
@@ -104,11 +103,11 @@ async function flush() {
 
 // Pull the sheet, keep whichever side changed last, push local wins back.
 export async function pull() {
-  if (!hasSheet()) return
+  if (!hasSheet) return
   if (!navigator.onLine) return set({ sync: 'offline' })
   set({ sync: 'syncing', syncError: null })
   try {
-    const rows = await fetchRows(state.settings)
+    const rows = await fetchRows(sheet)
     const log = { ...state.log }
     const pending = { ...state.pending }
     const remoteIds = new Set()
@@ -142,20 +141,11 @@ export function syncNow() {
   return pull().then(flush)
 }
 
-export async function testConnection(settings) {
-  const rows = await fetchRows(settings)
-  return rows.length
-}
-
-export function saveSettings(settings) {
-  write(LS.settings, settings)
-  set({ settings, sync: 'idle', syncError: null })
-  if (settings.mode === 'sheet') syncNow()
-}
-
 export function resetLocalData() {
+  // Clears this device's cache only; the next sync reloads everything from the sheet.
   Object.values(LS).forEach((k) => localStorage.removeItem(k))
-  set({ settings: null, log: {}, pending: {}, sync: 'idle', syncError: null, lastSync: null })
+  set({ log: {}, pending: {}, sync: 'idle', syncError: null, lastSync: null })
+  syncNow()
 }
 
 // Keep in sync when the app comes back to the foreground or online.

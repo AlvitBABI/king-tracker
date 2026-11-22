@@ -25,6 +25,10 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+        env:
+          # The one Google Sheet the app uses (repo Settings → Secrets and variables → Actions)
+          VITE_SHEET_URL: ${{ secrets.SHEET_URL }}
+          VITE_SHEET_KEY: ${{ secrets.SHEET_KEY }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

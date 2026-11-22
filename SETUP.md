@@ -1,8 +1,8 @@
-# Connect King Tracker to your own Google Sheet (5 minutes)
+# Connect King Tracker to its Google Sheet (one-time, 5 minutes)
 
-King Tracker keeps your reading log in **your own** Google Sheet, so your ratings and notes belong to you and sync across your devices. You can also skip this and keep everything on one device ("Just use this device").
+King Tracker keeps the reading log in one Google Sheet. You set it up once: the sheet's URL and key are built into the app, so every device opens straight into your log with nothing to type.
 
-You need a Google account and a computer (the Apps Script editor is awkward on a phone). After that, everything happens on your phone.
+You need a Google account and a computer (the Apps Script editor is awkward on a phone).
 
 ## 1. Make the sheet
 
@@ -38,11 +38,21 @@ You don't need to add any columns. The script creates a `log` tab with the right
 
 "Anyone" only means the URL is reachable from the app. Every request must include your secret key, and requests without it are rejected.
 
-## 5. Connect the app
+## 5. Give the URL and key to the app
 
-1. Open King Tracker on your phone. To install it, tap Share → **Add to Home Screen** in Safari.
-2. Choose **Connect my Google Sheet**, or go to **Settings** if you're already using it.
-3. Paste the **Web app URL** and the **secret key**, then tap **Connect**.
+1. On GitHub, open the repo **Settings → Secrets and variables → Actions → New repository secret**.
+2. Add two secrets:
+   - `SHEET_URL` = the Web app URL from step 4
+   - `SHEET_KEY` = the secret key from step 3
+3. Go to **Actions → Deploy to GitHub Pages → Run workflow** (or just push to `main`). The deploy bakes both values into the app.
+4. Open King Tracker on your phone. To install it, tap Share → **Add to Home Screen** in Safari.
+
+For local development, put the same values in a `.env.local` file (git-ignored):
+
+```
+VITE_SHEET_URL=https://script.google.com/macros/s/…/exec
+VITE_SHEET_KEY=…
+```
 
 That's it. The dot in the top-right corner shows sync status:
 
@@ -53,13 +63,15 @@ That's it. The dot in the top-right corner shows sync status:
 | 🔴 red | Couldn't save. It retries automatically, or tap the dot to retry now |
 | ⚪ grey | Offline. Changes are kept and sync when you're back online |
 
-## Sharing with a friend
+## Good to know
 
-Send them the app link and this guide. Each person makes their own sheet and key, so nobody can see anyone else's log.
+- The URL and key end up inside the published JavaScript, so someone who digs through the site's code could find them and read or edit the log. Fine for a reading log; don't put anything sensitive in comments.
+- To switch to a different sheet, update the two secrets and redeploy.
 
 ## Troubleshooting
 
-- **"Wrong secret key"**: re-copy the key from the `setup` log. Running `setup` again shows the same key.
+- **"Wrong secret key"**: re-copy the key from the `setup` log into the `SHEET_KEY` secret and redeploy. Running `setup` again shows the same key.
+- **"No Google Sheet is connected to this build"**: the secrets are missing or misspelled (`SHEET_URL`, `SHEET_KEY`). Add them and re-run the deploy.
 - **"Unexpected response…"**: the deployment's access isn't set to **Anyone**. Go to Deploy → Manage deployments → ✏️ edit → Who has access: Anyone.
 - **Changed the script later?** Use Deploy → Manage deployments → ✏️ → Version: **New version** so the URL stays the same.
-- **New key:** in the Apps Script editor, open ⚙️ Project Settings → Script Properties, delete `KEY`, and run `setup` again.
+- **New key:** in the Apps Script editor, open ⚙️ Project Settings → Script Properties, delete `KEY`, run `setup` again, then update the `SHEET_KEY` secret and redeploy.
