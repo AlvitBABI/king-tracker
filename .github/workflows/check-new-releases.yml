@@ -8,6 +8,7 @@ on:
 permissions:
   contents: read
   issues: write
+  actions: write
 
 jobs:
   check:
@@ -21,3 +22,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
+      # GitHub disables scheduled workflows after 60 days without repo activity.
+      # Re-enabling on every run keeps the monthly check alive.
+      - name: Keep this scheduled workflow enabled
+        if: always()
+        run: gh api -X PUT "repos/${{ github.repository }}/actions/workflows/check-new-releases.yml/enable"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
