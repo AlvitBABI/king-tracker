@@ -13,6 +13,9 @@
   --accent-strong: #ff3348;
   --accent-ink: #fff;
   --reading: #e0a526;
+  --gold: #e2b04a;
+  --gold-deep: #9c6f12;
+  --gold-ink: #1d1400;
   --shadow: 0 6px 18px rgb(0 0 0 / 0.55);
   --glass: rgb(13 11 11 / 0.94);
   color-scheme: dark;
@@ -28,6 +31,8 @@
   --muted: #6c6058;
   --accent: #a80d24;
   --accent-strong: #c8102e;
+  --gold: #a87412;
+  --gold-deep: #7a540c;
   --accent-ink: #fff;
   --reading: #a86d00;
   --shadow: 0 4px 12px rgb(60 30 20 / 0.18);

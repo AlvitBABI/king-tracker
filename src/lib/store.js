@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from 'react'
 import { sheet } from './config.js'
-import { mergeRemote, normalizeEntry, normalizeLog } from './entry.js'
-import { fetchRows, pushRows } from './sheets.js'
+import { hasCollectionData, mergeRemote, normalizeEntry, normalizeLog } from './entry.js'
+import { fetchRows, pushRows, SCRIPT_VERSION } from './sheets.js'
 
 // Reading log store: the screen updates instantly, everything is cached in
 // localStorage, and edits are queued and pushed to the sheet in the background.
@@ -10,6 +10,7 @@ const LS = {
   log: 'kt.log',
   pending: 'kt.pending',
   lastSync: 'kt.lastSync',
+  scriptVersion: 'kt.scriptVersion',
 }
 
 const read = (k, fallback) => {
@@ -27,6 +28,8 @@ let state = {
   sync: 'idle', // idle | syncing | error | offline
   syncError: null,
   lastSync: read(LS.lastSync, null),
+  // Version reported by the sheet script; below SCRIPT_VERSION it can't store the collection.
+  scriptVersion: read(LS.scriptVersion, SCRIPT_VERSION),
 }
 
 const listeners = new Set()
@@ -50,7 +53,7 @@ export const hasSheet = Boolean(sheet)
 // Editing
 
 export function updateEntry(book, patch) {
-  const prev = state.log[book.id] || { book_id: book.id, status: 'unread', rating: null, comment: '', date_finished: null }
+  const prev = state.log[book.id] || normalizeEntry({ book_id: book.id, status: 'unread' })
   const entry = normalizeEntry({ ...prev, ...patch, book_id: book.id, title: book.title, updated_at: new Date().toISOString() })
   const log = { ...state.log, [book.id]: entry }
   const pending = { ...state.pending, [book.id]: entry }
@@ -96,16 +99,23 @@ async function flush() {
   set({ sync: 'syncing', syncError: null })
   inFlight = pushRows(sheet, rows)
   try {
-    await inFlight
-    // Drop only what we sent; anything edited meanwhile stays queued.
+    const { version } = await inFlight
+    const outdated = version < SCRIPT_VERSION
+    // Drop only what we sent; anything edited meanwhile stays queued. With an
+    // outdated script, collection data stays queued (on this device) until
+    // the script is updated.
     const pending = { ...state.pending }
-    for (const r of rows) if (pending[r.book_id]?.updated_at === r.updated_at) delete pending[r.book_id]
+    for (const r of rows)
+      if (pending[r.book_id]?.updated_at === r.updated_at && !(outdated && hasCollectionData(r))) delete pending[r.book_id]
     const lastSync = new Date().toISOString()
     write(LS.lastSync, lastSync)
+    setScriptVersion(version)
     retryDelay = 0
     set({ pending, sync: 'idle', lastSync })
     persistNow()
-    if (Object.keys(pending).length) scheduleFlush(300)
+    // More to send? (Not the rows an outdated script can't store: those wait for the next sync.)
+    const sent = new Set(rows.map((r) => `${r.book_id}@${r.updated_at}`))
+    if (Object.values(pending).some((e) => !sent.has(`${e.book_id}@${e.updated_at}`))) scheduleFlush(300)
   } catch (err) {
     retryDelay = Math.min(retryDelay ? retryDelay * 2 : 5000, 60000)
     set({ sync: navigator.onLine ? 'error' : 'offline', syncError: err.message })
@@ -121,7 +131,8 @@ export async function pull() {
   if (!navigator.onLine) return set({ sync: 'offline' })
   set({ sync: 'syncing', syncError: null })
   try {
-    const rows = await fetchRows(sheet)
+    const { rows, version } = await fetchRows(sheet)
+    setScriptVersion(version)
     const { log, pending } = mergeRemote(state.log, state.pending, rows)
     const lastSync = new Date().toISOString()
     write(LS.lastSync, lastSync)
@@ -131,6 +142,12 @@ export async function pull() {
   } catch (err) {
     set({ sync: navigator.onLine ? 'error' : 'offline', syncError: err.message })
   }
+}
+
+function setScriptVersion(version) {
+  if (version === state.scriptVersion) return
+  write(LS.scriptVersion, version)
+  set({ scriptVersion: version })
 }
 
 export function syncNow() {

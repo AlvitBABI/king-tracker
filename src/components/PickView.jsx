@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { books, SERIES, statusOf, TYPE_LABEL } from '../lib/books.js'
+import { isOwned } from '../lib/entry.js'
 import { updateEntry, useStore } from '../lib/store.js'
 import { Cover } from './BookCard.jsx'
 import { DiceIcon } from './Icons.jsx'
 
 const MODES = [
   { id: 'any', label: 'Anything' },
+  { id: 'shelf', label: 'On my shelf', hint: 'books you own' },
   { id: 'short', label: 'Short', hint: 'under 300 pages' },
   { id: 'long', label: 'Long', hint: '500+ pages' },
   { id: 'series', label: 'Series', hint: 'next in a series' },
@@ -15,6 +17,7 @@ const MODES = [
 // preferring series you've already started.
 function candidates(mode, log) {
   const unread = books.filter((b) => statusOf(log, b.id) === 'unread')
+  if (mode === 'shelf') return unread.filter((b) => isOwned(log[b.id]))
   if (mode === 'short') return unread.filter((b) => b.pages && b.pages < 300)
   if (mode === 'long') return unread.filter((b) => b.pages >= 500)
   if (mode === 'series') {
@@ -102,7 +105,11 @@ export default function PickView({ onOpen }) {
         ) : (
           <div className="pick-placeholder">
             <DiceIcon width={56} height={56} />
-            <p>{pool.length ? 'Feeling lucky?' : 'Nothing left to pick here. Impressive.'}</p>
+            <p>{pool.length
+                ? 'Feeling lucky?'
+                : mode === 'shelf'
+                  ? 'No unread books on your shelf. Time to go shopping.'
+                  : 'Nothing left to pick here. Impressive.'}</p>
           </div>
         )}
       </div>

@@ -1,4 +1,5 @@
 import { exportCsv } from '../lib/csv.js'
+import { SCRIPT_VERSION } from '../lib/sheets.js'
 import { resetLocalData, syncNow, useStore } from '../lib/store.js'
 
 const SETUP_URL = 'https://github.com/AlvitBABI/king-tracker/blob/main/SETUP.md'
@@ -21,7 +22,7 @@ export function NotConfigured() {
 }
 
 export default function SettingsView({ theme, setTheme }) {
-  const { sync, syncError, lastSync, pending, log } = useStore()
+  const { sync, syncError, lastSync, pending, log, scriptVersion } = useStore()
   const pendingCount = Object.keys(pending).length
 
   return (
@@ -41,6 +42,12 @@ export default function SettingsView({ theme, setTheme }) {
                 : 'all saved'}
         </p>
         {syncError && <p className="form-msg err">{syncError}</p>}
+        {scriptVersion < SCRIPT_VERSION && (
+          <p className="notice">
+            The sheet script is out of date and can’t store your collection yet. Paste the new <code>Code.gs</code> into Apps
+            Script, then Deploy → Manage deployments → ✏️ → New version, and run <code>setup</code>.
+          </p>
+        )}
         <p className="muted small">
           {pendingCount ? `${pendingCount} change${pendingCount > 1 ? 's' : ''} waiting to sync. ` : ''}
           {lastSync ? `Last synced ${new Date(lastSync).toLocaleString()}` : 'Not synced yet'}

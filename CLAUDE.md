@@ -1,6 +1,6 @@
 # king-tracker
 
-Personal web app to log which Stephen King books I've read, with ratings and private comments. Should be easy and fun to use, so I actually want to open it.
+Personal web app with two trackers for Stephen King books: a **reading tracker** (what I've read, ratings, private comments) and a **collector tracker** (which books I own, formats, wishlist; quick to check in a shop). Should be easy and fun to use, so I actually want to open it.
 
 ## Working style
 - Make changes without stopping for step-by-step approval, then give a short summary of what was done and why (I'm learning from the summaries).
@@ -24,10 +24,10 @@ Fields: `id` (stable slug), `title`, `published` (ISO date of first US publicati
 - `.github/workflows/check-new-releases.yml` runs `scripts/check-new-releases.mjs` monthly and opens a `new-release` GitHub issue for any site slug missing from `sk-works.json`. Adding a book = verify dates, add to books.json, map the slug.
 - Covers: `olid` (Open Library's representative cover edition) is preferred over `isbn` when both exist.
 
-### Reading log: user's Google Sheet, tab `log`
-Columns: `book_id`, `title`, `status` (unread | reading | read), `rating` (1–5), `comment`, `date_finished`, `updated_at`.
-The title column is there so the sheet is readable on its own.
-Rule: `rating` and `date_finished` only exist when status is `read`. Leaving Read clears them (with a 5-second Undo). Enforced in `src/lib/entry.js` (`normalizeEntry` / `ratingOf`, used everywhere) and again in `Code.gs`.
+### Log: user's Google Sheet, tab `log` (one row per book, both trackers)
+Columns: `book_id`, `title`, `status` (unread | reading | read), `rating` (1–5), `comment`, `date_finished`, `owned` (yes/blank), `wishlist` (yes/blank), `formats` (comma list: hardcover, paperback, mass-market, ebook, audiobook), `acquired_on`, `copy_notes`, `updated_at`.
+The title column is there so the sheet is readable on its own. The script finds columns by header name and appends missing ones, so older sheets upgrade themselves.
+Rules: `rating` and `date_finished` only exist when status is `read`; `formats`, `acquired_on`, `copy_notes` only when `owned`; owned books are never on the wishlist. Leaving Read / un-owning clears them (with a 5-second Undo). Enforced in `src/lib/entry.js` (`normalizeEntry` / `ratingOf`, used everywhere) and again in `Code.gs`.
 
 ## Google Sheets backend
 - `apps-script/Code.gs`: an Apps Script bound to the sheet, deployed as a web app (Execute as: me, Access: anyone).
@@ -35,6 +35,7 @@ Rule: `rating` and `date_finished` only exist when status is `read`. Leaving Rea
   - `doPost` → upserts one row by `book_id`
   - Every request must include a secret `key`, checked against a Script Property. Reject otherwise.
   - Use `text/plain` POST bodies to avoid CORS preflight. Reads are POST `{key, action: "list"}` so the key never sits in a URL (GET kept for old clients).
+  - Responses carry `version` (currently 2). With an older script the app keeps collection data queued on the device and shows an "update the script" notice (`SCRIPT_VERSION` in `src/lib/sheets.js`).
   - `onEdit` stamps `updated_at` on hand edits; `setup()` is re-runnable and cleans stale ratings/dates.
 - Tests: `npm test` (node:test, `tests/`), run in CI before the build.
 - Single sheet, single user: the script URL + key are baked in at build time (`VITE_SHEET_URL` / `VITE_SHEET_KEY`, from GitHub repo secrets `SHEET_URL` / `SHEET_KEY` in `deploy.yml`, or `.env.local` for dev). No settings form; the app opens straight into the log. Multi-account support may come later.
@@ -52,5 +53,6 @@ Rule: `rating` and `date_finished` only exist when status is `read`. Leaving Rea
    - Filters: type, series/universe, length (short <300 / medium / doorstopper 700+), decade, read status, rating
    - Dark horror theme (red accents, typewriter-style headings) plus light mode
 4. **Polish**: stats page (ratings spread, top 5, books per year), CSV export.
+5. **Collector tracker**: Reading / Collection switch in the header (changes progress bar, chips, card markers, filters, sheet section order). One-tap "+" on missing covers, greyed missing covers, wishlist strip with share, forgiving search ("Do I have it?"), My copy section (owned, wishlist, formats, date, edition notes), gold confetti, collector badges, collection stats, "On my shelf" pick mode.
 
 Finish each phase, push, then I test on my phone before the next phase.

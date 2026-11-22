@@ -1,4 +1,5 @@
 import books from '../data/books.json'
+import { isOwned, onWishlist } from './entry.js'
 
 export { books }
 export const bookById = Object.fromEntries(books.map((b) => [b.id, b]))
@@ -61,5 +62,25 @@ export function computeProgress(log) {
     total: books.length,
     pct: Math.round((read.length / books.length) * 100),
     pages: read.reduce((n, b) => n + (b.pages || 0), 0),
+  }
+}
+
+export const SHELVES = [
+  { id: 'owned', label: 'Owned' },
+  { id: 'missing', label: 'Missing' },
+  { id: 'wishlist', label: 'Wishlist' },
+]
+
+export function computeCollection(log) {
+  const owned = books.filter((b) => isOwned(log[b.id]))
+  return {
+    owned: owned.length,
+    total: books.length,
+    pct: Math.round((owned.length / books.length) * 100),
+    missing: books.length - owned.length,
+    wishlist: books.filter((b) => onWishlist(log[b.id])).length,
+    // Owned but not read yet: the to-be-read pile.
+    tbr: owned.filter((b) => statusOf(log, b.id) !== 'read').length,
+    pages: owned.reduce((n, b) => n + (b.pages || 0), 0),
   }
 }

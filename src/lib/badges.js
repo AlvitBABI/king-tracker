@@ -1,9 +1,11 @@
 import { books, statusOf, DECADES, decadeOf } from './books.js'
-import { ratingOf } from './entry.js'
+import { isOwned, ratingOf } from './entry.js'
 
 const countRead = (log, list) => list.filter((b) => statusOf(log, b.id) === 'read').length
+const countOwned = (log, list) => list.filter((b) => isOwned(log[b.id])).length
 const inSeries = (name) => books.filter((b) => b.series.includes(name))
 const ofType = (t) => books.filter((b) => b.type === t)
+const ownedEntries = (log) => books.map((b) => log[b.id]).filter(isOwned)
 
 // Each badge returns progress as [done, needed] so locked badges can show how close you are.
 export const BADGES = [
@@ -31,8 +33,23 @@ export const BADGES = [
   { id: 'critic', icon: '⭐', name: 'Critic', desc: 'Rate 10 books', check: (log) => [Object.values(log).filter((e) => ratingOf(e)).length, 10] },
 ]
 
-export function evaluateBadges(log) {
-  return BADGES.map((b) => {
+export const COLLECTOR_BADGES = [
+  { id: 'c-first', icon: '🛒', name: 'First Find', desc: 'Add your first book to the shelf', check: (log) => [countOwned(log, books), 1] },
+  { id: 'c-ten', icon: '📦', name: 'Shelf Starter', desc: 'Own 10 books', check: (log) => [countOwned(log, books), 10] },
+  { id: 'c-half', icon: '🏛️', name: 'The Library', desc: 'Own half of everything', check: (log) => [countOwned(log, books), Math.ceil(books.length / 2)] },
+  { id: 'c-all', icon: '💀', name: 'Completist', desc: 'Own every single book', check: (log) => [countOwned(log, books), books.length] },
+  { id: 'c-bachman', icon: '🎭', name: 'Bachman Shelf', desc: 'Own every Richard Bachman book', check: (log) => [countOwned(log, ofType('bachman')), ofType('bachman').length] },
+  { id: 'c-tower', icon: '🌹', name: 'The Tower Set', desc: 'Own all 8 Dark Tower books', check: (log) => [countOwned(log, inSeries('Dark Tower')), inSeries('Dark Tower').length] },
+  { id: 'c-hodges', icon: '🚗', name: 'Mr. Mercedes Box', desc: 'Own the whole Bill Hodges trilogy', check: (log) => [countOwned(log, inSeries('Bill Hodges')), inSeries('Bill Hodges').length] },
+  { id: 'c-hardcover', icon: '📕', name: 'Hardback Hunter', desc: 'Own 10 hardcovers', check: (log) => [ownedEntries(log).filter((e) => e.formats?.includes('hardcover')).length, 10] },
+  { id: 'c-double', icon: '👯', name: 'Double Dipper', desc: 'Own a book in 2 formats', check: (log) => [Math.min(1, ownedEntries(log).filter((e) => e.formats?.length >= 2).length), 1] },
+  { id: 'c-doorstop', icon: '🧱', name: 'Load-Bearing Shelf', desc: 'Own 5 books of 700+ pages', check: (log) => [countOwned(log, books.filter((b) => b.pages >= 700)), 5] },
+  { id: 'c-tbr', icon: '🗻', name: 'Tsundoku', desc: 'Own 10 books you haven’t read yet', check: (log) => [books.filter((b) => isOwned(log[b.id]) && statusOf(log, b.id) !== 'read').length, 10] },
+  { id: 'c-kept', icon: '🔖', name: 'Read & Kept', desc: 'Own 10 books you’ve read', check: (log) => [books.filter((b) => isOwned(log[b.id]) && statusOf(log, b.id) === 'read').length, 10] },
+]
+
+export function evaluateBadges(log, list = BADGES) {
+  return list.map((b) => {
     const [done, needed] = b.check(log)
     return { ...b, done: Math.min(done, needed), needed, earned: done >= needed }
   })

@@ -93,3 +93,26 @@ export function Stars({ value, size = 12 }) {
     </span>
   )
 }
+
+export const ShelfIcon = (p) => (
+  <svg {...base} {...p}>
+    <path d="M4 4v16M9 4v16M14 6l4 14M3 20h18" />
+  </svg>
+)
+export const PlusIcon = (p) => (
+  <svg {...base} strokeWidth={3} {...p}>
+    <path d="M12 5v14M5 12h14" />
+  </svg>
+)
+export function HeartIcon({ filled, ...p }) {
+  return (
+    <svg {...base} fill={filled ? 'currentColor' : 'none'} {...p}>
+      <path d="M12 21s-7.5-4.6-9.5-9.4C1.2 8.4 3.3 5 6.7 5c2 0 3.4 1 4.3 2.4h2C13.9 6 15.3 5 17.3 5c3.4 0 5.5 3.4 4.2 6.6C19.5 16.4 12 21 12 21z" />
+    </svg>
+  )
+}
+export const ShareIcon = (p) => (
+  <svg {...base} {...p}>
+    <path d="M12 3v13M7 8l5-5 5 5M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5" />
+  </svg>
+)

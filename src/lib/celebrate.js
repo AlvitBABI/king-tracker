@@ -9,3 +9,22 @@ export function celebrate() {
   confetti({ ...opts, angle: 120, origin: { x: 1, y: 0.9 } })
   setTimeout(() => confetti({ ...opts, particleCount: 40, spread: 120, startVelocity: 35, origin: { x: 0.5, y: 0.6 } }), 250)
 }
+
+const gold = ['#d9a441', '#f5d27a', '#b8860b', '#fff3c4', '#c8102e']
+
+// A smaller gold shower for a new book on the shelf. `origin` lets it burst
+// from the card that was tapped.
+export function celebrateOwned(origin = { x: 0.5, y: 0.7 }) {
+  confetti({
+    particleCount: 60,
+    spread: 75,
+    startVelocity: 32,
+    gravity: 0.9,
+    scalar: 0.9,
+    shapes: ['square', 'circle'],
+    colors: gold,
+    origin,
+    zIndex: 1000,
+    disableForReducedMotion: true,
+  })
+}

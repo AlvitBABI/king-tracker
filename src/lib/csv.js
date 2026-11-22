@@ -1,7 +1,8 @@
 import { books, TYPE_LABEL } from './books.js'
-import { ratingOf } from './entry.js'
+import { FORMATS, ratingOf } from './entry.js'
 
-const COLUMNS = ['title', 'published', 'type', 'pages', 'series', 'status', 'rating', 'date_finished', 'comment']
+const COLUMNS = ['title', 'published', 'type', 'pages', 'series', 'status', 'rating', 'date_finished', 'comment', 'owned', 'wishlist', 'formats', 'acquired_on', 'copy_notes']
+const FORMAT_LABEL = Object.fromEntries(FORMATS.map((f) => [f.id, f.label]))
 
 const cell = (v) => {
   const s = v == null ? '' : String(v)
@@ -21,6 +22,11 @@ export function buildCsv(log) {
       rating: ratingOf(e) || '',
       date_finished: e.status === 'read' ? e.date_finished || '' : '',
       comment: e.comment || '',
+      owned: e.owned ? 'yes' : '',
+      wishlist: e.wishlist && !e.owned ? 'yes' : '',
+      formats: e.owned ? (e.formats || []).map((f) => FORMAT_LABEL[f] || f).join('; ') : '',
+      acquired_on: e.owned ? e.acquired_on || '' : '',
+      copy_notes: e.owned ? e.copy_notes || '' : '',
     }
   })
   return [COLUMNS.join(','), ...rows.map((r) => COLUMNS.map((c) => cell(r[c])).join(','))].join('\r\n')

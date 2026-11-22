@@ -55,3 +55,53 @@ test('merge: local-only entries are queued for upload', () => {
   const { pending } = mergeRemote({ it: e({ book_id: 'it', updated_at: '2024-01-01' }) }, {}, [])
   assert.ok(pending.it)
 })
+
+// ---------------------------------------------------------------------------
+// Collection
+
+import { parseFormats, searchKey, shelfOf } from '../src/lib/entry.js'
+
+test('collection fields only exist while owned; owned books leave the wishlist', () => {
+  const owned = normalizeEntry({ book_id: 'it', owned: true, wishlist: true, formats: 'hardcover,bogus,paperback', acquired_on: '2025-01-01', copy_notes: 'signed' })
+  assert.equal(owned.wishlist, false)
+  assert.deepEqual(owned.formats, ['hardcover', 'paperback'])
+  assert.equal(shelfOf(owned), 'owned')
+  const gone = normalizeEntry({ ...owned, owned: false })
+  assert.deepEqual([gone.formats, gone.acquired_on, gone.copy_notes], [[], null, ''])
+  assert.equal(shelfOf(gone), 'missing')
+  assert.equal(shelfOf(normalizeEntry({ book_id: 'it', wishlist: 'yes' })), 'wishlist')
+})
+
+test('reading and collection sides are independent', () => {
+  const n = normalizeEntry(e({ owned: true, formats: ['ebook'] }))
+  assert.equal(n.rating, 4)
+  assert.deepEqual(n.formats, ['ebook'])
+  const unread = normalizeEntry({ ...n, status: 'unread' })
+  assert.equal(unread.rating, null)
+  assert.equal(unread.owned, true)
+})
+
+test('parseFormats accepts arrays and comma strings', () => {
+  assert.deepEqual(parseFormats('ebook, ebook ,audiobook'), ['ebook', 'audiobook'])
+  assert.deepEqual(parseFormats(['hardcover']), ['hardcover'])
+  assert.deepEqual(parseFormats(null), [])
+})
+
+test('merge: an old sheet script (no collection columns) never wipes the local collection', () => {
+  const local = { carrie: normalizeEntry(e({ owned: true, formats: ['hardcover'], updated_at: '2024-01-01' })) }
+  const { log } = mergeRemote(local, {}, [{ book_id: 'carrie', title: 'Carrie', status: 'read', rating: 5, updated_at: '2024-02-01' }])
+  assert.equal(log.carrie.rating, 5)
+  assert.equal(log.carrie.owned, true)
+  assert.deepEqual(log.carrie.formats, ['hardcover'])
+})
+
+test('merge: a new script row with owned=false does override', () => {
+  const local = { carrie: normalizeEntry(e({ owned: true, updated_at: '2024-01-01' })) }
+  const { log } = mergeRemote(local, {}, [{ ...e({ updated_at: '2024-02-01' }), owned: false }])
+  assert.equal(log.carrie.owned, false)
+})
+
+test('search ignores punctuation and case', () => {
+  assert.ok(searchKey("'Salem's Lot").includes(searchKey('salems lot')))
+  assert.ok(searchKey('11/22/63').includes(searchKey('112263')))
+})
